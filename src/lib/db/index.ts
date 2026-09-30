@@ -1,50 +1,65 @@
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import fs from "fs";
-import path from "path";
-import * as schema from "./schema";
-import { migrate } from "./migrate";
-import { seedIfEmpty } from "./seed";
+import { getPostgresUrl, ensurePgDb, pgSchema } from "./pg";
+import * as sqliteSchema from "./schema";
 
-const dataDir =
-  process.env.OPENPAGES_DATA_DIR || path.join(process.cwd(), "data");
+/**
+ * Database entrypoint.
+ * - Neon Postgres when DATABASE_URL / POSTGRES_URL is set (Vercel)
+ * - SQLite file locally for zero-config OSS installs
+ *
+ * Return type is intentionally loose so Drizzle's incompatible
+ * Pg vs SQLite query builders don't explode the build.
+ */
 
-const dbPath = process.env.DATABASE_URL?.startsWith("file:")
-  ? process.env.DATABASE_URL.replace(/^file:/, "")
-  : path.join(dataDir, "openpages.db");
+function activeSchema() {
+  return getPostgresUrl() ? pgSchema : sqliteSchema;
+}
 
-type Db = ReturnType<typeof drizzle<typeof schema>>;
+export const schema = activeSchema() as typeof sqliteSchema;
 
-let sqlite: Database.Database | null = null;
-let dbInstance: Db | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyDb = any;
 
-function ensureDb(): Db {
-  if (dbInstance) return dbInstance;
+let sqliteDb: AnyDb | null = null;
+
+function ensureSqlite(): AnyDb {
+  // Lazy-load so Vercel (Postgres) never requires the native module at runtime
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const Database = require("better-sqlite3");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { drizzle } = require("drizzle-orm/better-sqlite3");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const fs = require("fs");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const path = require("path");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { migrate } = require("./migrate");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { seedIfEmpty } = require("./seed");
+
+  const dataDir =
+    process.env.OPENPAGES_DATA_DIR || path.join(process.cwd(), "data");
+  const raw = process.env.DATABASE_URL || "";
+  const dbPath = raw.startsWith("file:")
+    ? raw.replace(/^file:/, "")
+    : path.join(dataDir, "openpages.db");
 
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
-  sqlite = new Database(dbPath);
+  const sqlite = new Database(dbPath);
   sqlite.pragma("journal_mode = WAL");
   sqlite.pragma("foreign_keys = ON");
-
-  dbInstance = drizzle(sqlite, { schema });
+  const db = drizzle(sqlite, { schema: sqliteSchema });
   migrate(sqlite);
   seedIfEmpty(sqlite);
-  return dbInstance;
+  return db;
 }
 
-/** Lazy singleton — safe for Next.js route handlers. */
-export const db = new Proxy({} as Db, {
-  get(_target, prop) {
-    const instance = ensureDb();
-    const value = (instance as unknown as Record<string | symbol, unknown>)[
-      prop
-    ];
-    return typeof value === "function" ? value.bind(instance) : value;
-  },
-});
-
-export function getDb() {
-  return ensureDb();
+export async function getDb(): Promise<AnyDb> {
+  if (getPostgresUrl()) {
+    return ensurePgDb();
+  }
+  if (!sqliteDb) sqliteDb = ensureSqlite();
+  return sqliteDb;
 }
 
-export { schema };
+export { sqliteSchema };
+export type { Citation, ContextMeta, AgentStep } from "./schema";

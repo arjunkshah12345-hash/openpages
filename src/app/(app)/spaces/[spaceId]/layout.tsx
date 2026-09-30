@@ -11,7 +11,7 @@ export default async function SpaceLayout({
   params: Promise<{ spaceId: string }>;
 }) {
   const { spaceId } = await params;
-  const db = getDb();
+  const db = await getDb();
   const space = await db.query.spaces.findFirst({
     where: eq(schema.spaces.id, spaceId),
   });
@@ -27,7 +27,7 @@ export default async function SpaceLayout({
     .from(schema.pages)
     .where(eq(schema.pages.spaceId, spaceId));
 
-  pages.sort((a, b) => a.sortOrder - b.sortOrder || a.title.localeCompare(b.title));
+  pages.sort((a: { sortOrder: number; title: string }, b: { sortOrder: number; title: string }) => a.sortOrder - b.sortOrder || a.title.localeCompare(b.title));
 
   return (
     <div className="flex h-screen overflow-hidden bg-[var(--paper)]">
@@ -38,7 +38,7 @@ export default async function SpaceLayout({
           icon: space.icon,
           description: space.description,
         }}
-        pages={pages.map((p) => ({
+        pages={pages.map((p: { id: string; title: string; icon: string | null }) => ({
           id: p.id,
           title: p.title,
           icon: p.icon,

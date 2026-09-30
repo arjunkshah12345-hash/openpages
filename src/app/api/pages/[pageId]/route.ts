@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ pageId: string }> }
 ) {
   const { pageId } = await params;
-  const db = getDb();
+  const db = await getDb();
   const page = await db.query.pages.findFirst({
     where: eq(schema.pages.id, pageId),
   });
@@ -48,7 +48,7 @@ export async function DELETE(
   { params }: { params: Promise<{ pageId: string }> }
 ) {
   const { pageId } = await params;
-  const db = getDb();
+  const db = await getDb();
   await db.delete(schema.pages).where(eq(schema.pages.id, pageId));
   return NextResponse.json({ ok: true });
 }

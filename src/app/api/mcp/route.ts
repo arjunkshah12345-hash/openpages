@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true, result: results });
       }
       case "page_list": {
-        const db = getDb();
+        const db = await getDb();
         const pages = await db
           .select({
             id: schema.pages.id,
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true, result: pages });
       }
       case "page_get": {
-        const db = getDb();
+        const db = await getDb();
         const page = await db.query.pages.findFirst({
           where: eq(schema.pages.id, args.pageId || args.id),
         });
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true, result: page });
       }
       case "file_get": {
-        const db = getDb();
+        const db = await getDb();
         const file = await db.query.files.findFirst({
           where: eq(schema.files.id, args.fileId || args.id),
         });

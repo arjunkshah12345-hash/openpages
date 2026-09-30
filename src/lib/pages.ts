@@ -122,7 +122,7 @@ export async function createPage(options: {
   createdBy?: string;
   actorType?: "user" | "agent" | "mcp";
 }) {
-  const db = getDb();
+  const db = await getDb();
   const id = nanoid();
   const now = new Date();
   const content =
@@ -166,7 +166,7 @@ export async function updatePage(options: {
   actorType?: "user" | "agent" | "mcp";
   summary?: string;
 }) {
-  const db = getDb();
+  const db = await getDb();
   const existing = await db.query.pages.findFirst({
     where: eq(schema.pages.id, options.pageId),
   });

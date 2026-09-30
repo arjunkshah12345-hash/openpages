@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const db = getDb();
+  const db = await getDb();
   let convId = conversationId;
 
   if (!convId) {

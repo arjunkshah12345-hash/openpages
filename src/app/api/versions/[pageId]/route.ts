@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ pageId: string }> }
 ) {
   const { pageId } = await params;
-  const db = getDb();
+  const db = await getDb();
   const versions = await db
     .select()
     .from(schema.pageVersions)
@@ -26,7 +26,7 @@ export async function POST(
   const { pageId } = await params;
   const body = await req.json();
   const versionId = body.versionId as string;
-  const db = getDb();
+  const db = await getDb();
 
   const version = await db.query.pageVersions.findFirst({
     where: eq(schema.pageVersions.id, versionId),

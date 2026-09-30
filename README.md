@@ -4,6 +4,12 @@
 </p>
 
 <p align="center">
+  <a href="https://openpages-iota.vercel.app"><strong>Live demo</strong></a> ·
+  <a href="https://github.com/arjunkshah12345-hash/openpages">GitHub</a> ·
+  <a href="https://www.supercompress.dev">SuperCompress</a>
+</p>
+
+<p align="center">
   Open-source AI workspace with persistent Spaces, collaborative pages,<br />
   and <a href="https://www.supercompress.dev"><strong>SuperCompress</strong></a> as the core context layer.
 </p>

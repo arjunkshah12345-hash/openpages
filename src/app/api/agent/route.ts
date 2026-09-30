@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const db = getDb();
+  const db = await getDb();
   const runId = nanoid();
   const steps: AgentStep[] = [];
 

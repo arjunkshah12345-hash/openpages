@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   if (!spaceId) {
     return NextResponse.json({ error: "spaceId required" }, { status: 400 });
   }
-  const db = getDb();
+  const db = await getDb();
   const files = await db
     .select()
     .from(schema.files)
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const db = getDb();
+  const db = await getDb();
   const id = nanoid();
   const contentText = body.contentText || body.content || "";
 

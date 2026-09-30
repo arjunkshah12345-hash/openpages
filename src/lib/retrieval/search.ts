@@ -25,7 +25,7 @@ export async function retrieveSpaceContext(
   query: string,
   options?: { limit?: number; conversationId?: string }
 ): Promise<RetrievalResult> {
-  const db = getDb();
+  const db = await getDb();
   const limit = options?.limit ?? 12;
   const terms = query
     .toLowerCase()
@@ -130,7 +130,7 @@ export async function retrieveSpaceContext(
 }
 
 export async function searchSpace(spaceId: string, query: string) {
-  const db = getDb();
+  const db = await getDb();
   const q = `%${query}%`;
 
   const pageHits = await db
@@ -168,11 +168,11 @@ export async function searchSpace(spaceId: string, query: string) {
     .limit(10);
 
   return {
-    pages: pageHits.map((p) => ({
+    pages: pageHits.map((p: { id: string; title: string; icon: string | null; snippet: string | null }) => ({
       ...p,
       snippet: (p.snippet || "").slice(0, 200),
     })),
-    files: fileHits.map((f) => ({
+    files: fileHits.map((f: { id: string; name: string; snippet: string | null }) => ({
       ...f,
       snippet: (f.snippet || "").slice(0, 200),
     })),

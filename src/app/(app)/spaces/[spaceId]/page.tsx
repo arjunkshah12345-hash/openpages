@@ -11,7 +11,7 @@ export default async function SpaceHome({
   params: Promise<{ spaceId: string }>;
 }) {
   const { spaceId } = await params;
-  const db = getDb();
+  const db = await getDb();
   const space = await db.query.spaces.findFirst({
     where: eq(schema.spaces.id, spaceId),
   });
@@ -70,7 +70,7 @@ export default async function SpaceHome({
             Recent pages
           </h2>
           <ul className="mt-3 divide-y divide-[var(--border)] border-t border-[var(--border)]">
-            {pages.map((p) => (
+            {pages.map((p: { id: string; title: string; icon: string | null }) => (
               <li key={p.id}>
                 <Link
                   href={`/spaces/${spaceId}/pages/${p.id}`}
@@ -91,7 +91,7 @@ export default async function SpaceHome({
               Agent activity
             </h2>
             <ul className="mt-3 space-y-2">
-              {runs.map((r) => (
+              {runs.map((r: { id: string; goal: string; status: string; contextMeta: { tokensSavedPct?: number } | null }) => (
                 <li
                   key={r.id}
                   className="rounded-lg border border-[var(--border)] px-4 py-3 text-sm"

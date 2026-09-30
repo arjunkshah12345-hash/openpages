@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ spaceId: string }> }
 ) {
   const { spaceId } = await params;
-  const db = getDb();
+  const db = await getDb();
   const space = await db.query.spaces.findFirst({
     where: eq(schema.spaces.id, spaceId),
   });
@@ -34,7 +34,7 @@ export async function PATCH(
 ) {
   const { spaceId } = await params;
   const body = await req.json();
-  const db = getDb();
+  const db = await getDb();
 
   await db
     .update(schema.spaces)
@@ -55,7 +55,7 @@ export async function DELETE(
   { params }: { params: Promise<{ spaceId: string }> }
 ) {
   const { spaceId } = await params;
-  const db = getDb();
+  const db = await getDb();
   await db.delete(schema.spaces).where(eq(schema.spaces.id, spaceId));
   return NextResponse.json({ ok: true });
 }
