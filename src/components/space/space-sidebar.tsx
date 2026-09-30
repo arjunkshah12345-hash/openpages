@@ -75,7 +75,7 @@ export function SpaceSidebar({
         </Link>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 truncate text-sm font-semibold text-[var(--ink)]">
-            <span>{space.icon}</span>
+            <span className="text-base leading-none">{space.icon}</span>
             <span className="truncate">{space.name}</span>
           </div>
         </div>
