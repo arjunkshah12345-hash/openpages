@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #06060c;
+    color: #0d0d0d;
+  }
+  .stars {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.85), transparent),
+      radial-gradient(1px 1px at 28% 62%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.5px 1.5px at 44% 22%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1px 1px at 61% 78%, rgba(255,255,255,.8), transparent),
+      radial-gradient(1.5px 1.5px at 73% 34%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 88% 56%, rgba(255,255,255,.75), transparent),
+      radial-gradient(1px 1px at 16% 88%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1.5px 1.5px at 52% 48%, rgba(255,255,255,.4), transparent),
+      radial-gradient(800px 500px at 70% 40%, rgba(16,163,127,.18), transparent),
+      radial-gradient(600px 400px at 30% 70%, rgba(5,102,255,.14), transparent);
+  }
+  .card {
+    position: absolute; background: #fff; border-radius: 18px;
+    box-shadow: 0 30px 80px -24px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.06);
+    overflow: hidden;
+  }
+  .c1 { left: 70px; top: 120px; width: 340px; height: 420px; transform: rotate(-8deg); }
+  .c2 { right: 80px; top: 90px; width: 380px; height: 280px; transform: rotate(7deg); background: #0d0d0d; color: #fff; }
+  .c3 { left: 180px; bottom: 100px; width: 420px; height: 300px; transform: rotate(4deg); }
+  .c4 { right: 60px; bottom: 140px; width: 280px; height: 200px; transform: rotate(-5deg); background: #e8f0ff; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #8e8ea0; }
+  .title { font-size: 22px; font-weight: 650; letter-spacing: -.03em; margin-top: 8px; }
+  .muted { color: #5d5d6b; font-size: 13px; line-height: 1.45; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: #f4f4f4; font-size: 12px; font-weight: 550; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #10a37f; }
+  .bar { height: 8px; border-radius: 99px; background: #fff; overflow: hidden; margin-top: 12px; }
+  .bar > i { display: block; height: 100%; width: 71%; background: #0566ff; border-radius: 99px; }
+  .bubble { margin-top: 14px; background: #ececec; border-radius: 16px; padding: 10px 14px; font-size: 13px; max-width: 90%; }
+  .ai { display: flex; gap: 10px; margin-top: 12px; font-size: 13px; line-height: 1.4; }
+  .orb { width: 26px; height: 26px; border-radius: 50%; background: #0a7a5c; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pad { padding: 22px; }
+  .stat { font-size: 48px; font-weight: 700; letter-spacing: -.04em; color: #0566ff; }
+  .row { display: flex; justify-content: space-between; font-size: 13px; margin-top: 10px; color: #5d5d6b; }
+  .row strong { color: #0d0d0d; }
+  .nav { padding: 8px 12px; border-radius: 10px; font-size: 13px; color: #5d5d6b; margin-top: 4px; }
+  .nav.on { background: #f4f4f4; color: #0d0d0d; font-weight: 600; }
+  .brand { font-size: 13px; font-weight: 650; letter-spacing: -.01em; }
+  .badge { display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 999px; background: rgba(5,102,255,.12); color: #0450cc; font-size: 11px; font-weight: 650; }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <div class="card c1">
+    <div class="pad" style="background:#f9f9f9;border-bottom:1px solid #e5e5e5;display:flex;gap:10px;align-items:center;">
+      <div style="width:32px;height:32px;border-radius:10px;background:#0d0d0d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">P</div>
+      <div>
+        <div class="brand">Product Launch</div>
+        <div style="font-size:11px;color:#8e8ea0;">OpenPages Space</div>
+      </div>
+    </div>
+    <div class="pad">
+      <div class="eyebrow">Pages</div>
+      <div class="nav">Product Roadmap</div>
+      <div class="nav on">Launch Notes</div>
+      <div class="nav">Customer Feedback</div>
+      <div class="nav">About SuperCompress</div>
+      <div style="margin-top:24px;padding:12px;border-radius:12px;border:1px solid #e5e5e5;background:#fff;">
+        <div class="eyebrow">Models</div>
+        <div class="muted" style="margin-top:6px;">ChatGPT · Claude · Gemini · Ollama</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card c2">
+    <div class="pad">
+      <div class="eyebrow" style="color:rgba(255,255,255,.45)">OpenPages</div>
+      <div class="title" style="color:#fff;font-size:28px;">Your workspace for humans and agents</div>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="chip" style="background:#1a1a1a;color:#ececec;">Spaces</span>
+        <span class="chip" style="background:#1a1a1a;color:#ececec;">Pages</span>
+        <span class="chip" style="background:#1a1a1a;color:#ececec;">MCP</span>
+        <span class="chip" style="background:#102a1f;color:#7dcea0;">AI</span>
+      </div>
+      <div class="badge">OSS · MIT · SuperCompress inside</div>
+    </div>
+  </div>
+
+  <div class="card c3">
+    <div class="pad">
+      <div class="title">Launch Notes</div>
+      <div class="muted" style="margin-top:8px;">Engineering: MCP auth. Marketing: SuperCompress before/after. Launch day: support rotation.</div>
+      <div class="bubble">What are we missing for launch?</div>
+      <div class="ai">
+        <div class="orb">AI</div>
+        <div>
+          From Launch Notes and Product Roadmap: MCP auth tokens, SuperCompress landing motion, launch-day support.
+          <div style="margin-top:8px;font-size:11px;color:#8e8ea0;font-weight:550;">38,492 → 11,203 tokens · SuperCompress</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card c4">
+    <div class="pad">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="eyebrow" style="color:#0450cc;">SuperCompress</div>
+        <div style="font-size:13px;font-weight:700;color:#0450cc;">70.9%</div>
+      </div>
+      <div class="stat">11.2k</div>
+      <div class="muted">kept · same evidence</div>
+      <div class="bar"><i></i></div>
+      <div class="row"><span>Retrieved</span><strong>38.5k</strong></div>
+    </div>
+  </div>
+</body>
+</html>

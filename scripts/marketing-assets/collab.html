@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1144px; height: 1144px; overflow: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #06060c; color: #0d0d0d;
+  }
+  .stars {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1.5px 1.5px at 15% 25%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.5), transparent),
+      radial-gradient(700px 500px at 50% 45%, rgba(5,102,255,.12), transparent);
+  }
+  .sheet {
+    position: absolute; left: 90px; right: 90px; top: 90px; bottom: 90px;
+    background: #fff; border-radius: 24px; overflow: hidden;
+    box-shadow: 0 40px 100px -30px rgba(0,0,0,.7);
+    display: flex; flex-direction: column;
+  }
+  .top { padding: 18px 24px; border-bottom: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; }
+  .content { padding: 36px 40px; flex: 1; }
+  .h { font-size: 32px; font-weight: 650; letter-spacing: -.03em; }
+  .p { margin-top: 14px; font-size: 16px; color: #5d5d6b; line-height: 1.55; max-width: 640px; }
+  .block {
+    margin-top: 28px; padding: 20px 22px; border-radius: 16px; border: 1px solid #e5e5e5; background: #fcfcfc;
+  }
+  .hl {
+    background: linear-gradient(transparent 60%, rgba(5,102,255,.18) 60%);
+    font-weight: 550;
+  }
+  .comment {
+    margin-top: 18px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .orb { width: 34px; height: 34px; border-radius: 50%; background: #0a7a5c; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bubble { background: #f4f4f4; border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.45; max-width: 520px; }
+  .meta { margin-top: 8px; font-size: 12px; color: #8e8ea0; font-weight: 550; }
+  .tag { font-size: 11px; font-weight: 700; color: #0450cc; background: #e8f0ff; padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 6px; }
+  .actions { display: flex; gap: 8px; margin-top: 14px; }
+  .btn { padding: 8px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 600; }
+  .btn-dark { background: #0d0d0d; color: #fff; }
+  .btn-soft { background: #ececec; color: #5d5d6b; }
+  .pill { padding: 5px 12px; border-radius: 999px; background: #f4f4f4; font-size: 12px; font-weight: 550; color: #5d5d6b; }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="sheet">
+    <div class="top">
+      <div style="font-size:14px;font-weight:600;">Launch plan · OpenPages</div>
+      <div class="pill">Editing with agent</div>
+    </div>
+    <div class="content">
+      <div class="h">Q3 launch plan</div>
+      <div class="p">Campaign narrative, MCP ship checklist, and SuperCompress proof for the OpenPages homepage.</div>
+      <div class="block">
+        <div class="tag">Agent highlight</div>
+        <p style="font-size:15px;line-height:1.55;color:#2f2f2f;">
+          Lead with <span class="hl">“open-source ChatGPT Space”</span> recognition, then show
+          <span class="hl">Workspace → Retrieval → SuperCompress → Model</span> as the differentiator.
+          Draft homepage CTA: Start a Space.
+        </p>
+      </div>
+      <div class="comment">
+        <div class="orb">AI</div>
+        <div>
+          <div class="bubble">
+            Updated Launch Notes from Product Roadmap and mocked the SuperCompress before/after on the landing page. Want me to push the rotation table into the page?
+          </div>
+          <div class="meta">Used 4 sources · 38.5k → 11.2k tokens · SuperCompress</div>
+          <div class="actions">
+            <span class="btn btn-dark">Add to page</span>
+            <span class="btn btn-soft">Draft table</span>
+            <span class="btn btn-soft">Dismiss</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

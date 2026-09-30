@@ -11,7 +11,8 @@
 
 <p align="center">
   Open-source AI workspace with persistent Spaces, collaborative pages,<br />
-  and <a href="https://www.supercompress.dev"><strong>SuperCompress</strong></a> as the core context layer.
+  and <a href="https://www.supercompress.dev"><strong>SuperCompress</strong></a> as the core context layer.<br />
+  <em>Open-source alternative to OpenAI Pages / ChatGPT Space.</em>
 </p>
 
 <p align="center">
@@ -20,6 +21,20 @@
   <a href="ARCHITECTURE.md">Architecture</a> ·
   <a href="#mcp">MCP</a> ·
   <a href="#docker">Docker</a>
+</p>
+
+<p align="center">
+  <img src="public/space-clone/hero-visual.png" alt="OpenPages — Spaces, pages, agents, and SuperCompress" width="720" />
+</p>
+
+<p align="center">
+  <img src="public/space-clone/visualize.png" alt="OpenPages Space — pages, context rail, SuperCompress savings" width="900" />
+</p>
+
+<p align="center">
+  <img src="public/space-clone/collab.png" width="420" alt="Agent collaboration on an OpenPages page" />
+  &nbsp;&nbsp;
+  <img src="public/space-clone/conversation.png" width="420" alt="OpenPages templates and conversation-to-page" />
 </p>
 
 ---
@@ -72,7 +87,7 @@ Get a key: [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard
 - **Workspace agent** — cited answers over the Space
 - **Agent mode** — multi-step goals, activity timeline, page creation
 - **Context inspector** — sources, retrieved tokens, SuperCompress savings, expandable context
-- **Model agnostic** — providers behind SuperCompress, never instead of it
+- **Model agnostic** — ChatGPT account (no API key), OpenAI, Anthropic, Gemini, OpenRouter, Groq, Mistral, DeepSeek, Together, Fireworks, xAI, Azure, Ollama, or custom OpenAI-compatible — always behind SuperCompress
 - **MCP** — Cursor / Claude Code / Codex can search, read, write, and pull compressed context
 - **Version history** — user / agent / mcp attribution + restore
 - **Self-host** — SQLite by default, Docker Compose included
@@ -84,25 +99,36 @@ Get a key: [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard
 ```bash
 git clone https://github.com/arjunkshah12345-hash/openpages.git
 cd openpages
-cp .env.example .env
+cp .env.example .env   # optional — onboarding can store credentials instead
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) → **Start a Space**.
+Open [http://localhost:3000](http://localhost:3000) → **Start a Space** runs the local onboarding wizard:
 
-A **Product Launch** demo Space is seeded with pages that explain the SuperCompress pipeline so first-run chat already shows compression in the inspector.
+1. **SuperCompress** — paste your key from [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard) (or use the offline compressor)
+2. **Model** — pick a provider:
+   - **ChatGPT account** — import `~/.codex/auth.json` or Sign in with ChatGPT (device code). No `sk-` API key required for Plus/Pro
+   - **API keys** — OpenAI, Anthropic, Gemini, OpenRouter, Groq, Mistral, DeepSeek, Together, Fireworks, xAI, Azure, or any OpenAI-compatible endpoint
+   - **Ollama** — local models, no key
+3. Credentials are saved to `~/.openpages/settings.json` (mode `0600`)
 
-### Environment
+A **Product Launch** demo Space is seeded so first-run chat already shows compression in the inspector.
+
+### Environment (optional)
+
+You can still use `.env` instead of (or in addition to) the wizard. Settings file wins when both are set.
 
 | Variable | Purpose |
 |----------|---------|
-| `SUPERCOMPRESS_API_KEY` | **Recommended.** Hosted SuperCompress ([dashboard](https://www.supercompress.dev/dashboard)) |
+| `SUPERCOMPRESS_API_KEY` | Hosted SuperCompress ([dashboard](https://www.supercompress.dev/dashboard)) |
 | `SUPERCOMPRESS_API_URL` | Override compress endpoint (default `https://api.supercompress.dev/compress`) |
-| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY` / `OPENROUTER_API_KEY` | Model providers |
+| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY` / `OPENROUTER_API_KEY` / `GROQ_API_KEY` / … | Model providers |
 | `OLLAMA_BASE_URL` | Local models (default `http://127.0.0.1:11434/v1`) |
+| `OPENPAGES_SETTINGS_PATH` | Override settings file location |
+| `CODEX_AUTH_PATH` | Override Codex auth import path |
 
-Without a SuperCompress key, OpenPages uses a local query-aware fallback so the pipeline and inspector still work. Without a model key, answers are demo replies — **retrieval + SuperCompress still run**.
+Without a SuperCompress key, OpenPages uses a local query-aware fallback so the pipeline and inspector still work. Without a model connection, answers are demo replies — **retrieval + SuperCompress still run**.
 
 ---
 

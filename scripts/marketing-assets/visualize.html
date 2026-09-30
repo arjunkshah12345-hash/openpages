@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1600px; height: 900px; overflow: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #06060c; color: #0d0d0d;
+  }
+  .stars {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1.5px 1.5px at 55% 30%, rgba(255,255,255,.65), transparent),
+      radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,.4), transparent),
+      radial-gradient(900px 500px at 50% 40%, rgba(16,163,127,.14), transparent);
+  }
+  .stage {
+    position: absolute; left: 80px; right: 80px; top: 70px; bottom: 70px;
+    border-radius: 22px; overflow: hidden; display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    background: #fff;
+    box-shadow: 0 50px 120px -40px rgba(0,0,0,.7);
+  }
+  .rail { background: #f9f9f9; border-right: 1px solid #e5e5e5; padding: 18px 12px; }
+  .rail-r { border-right: none; border-left: 1px solid #e5e5e5; padding: 20px 16px; }
+  .avatar { width: 34px; height: 34px; border-radius: 10px; background: #0d0d0d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .nav { padding: 10px 12px; border-radius: 10px; font-size: 13.5px; color: #5d5d6b; margin-top: 3px; }
+  .nav.on { background: #fff; color: #0d0d0d; font-weight: 650; box-shadow: 0 1px 3px rgba(0,0,0,.07); }
+  .doc-bar { padding: 14px 22px; border-bottom: 1px solid #e5e5e5; font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .body { padding: 28px 32px; }
+  .h { font-size: 26px; font-weight: 650; letter-spacing: -.03em; }
+  .p { margin-top: 12px; font-size: 15px; color: #5d5d6b; line-height: 1.55; max-width: 520px; }
+  .proto {
+    margin-top: 22px; border: 1px solid #e5e5e5; border-radius: 16px; padding: 18px; background: #fcfcfc;
+  }
+  .proto-title { font-size: 14px; font-weight: 650; }
+  .wire { margin-top: 12px; height: 120px; border-radius: 12px; background: linear-gradient(135deg, #ececec, #f7f7f8); border: 1px dashed #d0d0d8; display: flex; align-items: center; justify-content: center; color: #8e8ea0; font-size: 13px; }
+  .checks { margin-top: 14px; font-size: 13px; color: #2f2f2f; }
+  .checks li { margin: 6px 0; display: flex; gap: 8px; align-items: center; }
+  .ck { width: 16px; height: 16px; border-radius: 5px; background: #e7f7f1; color: #0a7a5c; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .ctx { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8e8ea0; }
+  .row { display: flex; justify-content: space-between; margin-top: 14px; font-size: 13.5px; color: #5d5d6b; }
+  .row strong { color: #0d0d0d; }
+  .sc { margin-top: 20px; padding: 14px; border-radius: 14px; background: #e8f0ff; border: 1px solid rgba(5,102,255,.18); }
+  .sc-top { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: #0450cc; }
+  .bar { margin-top: 10px; height: 7px; border-radius: 99px; background: #fff; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 71%; background: #0566ff; border-radius: 99px; }
+  .pill { padding: 4px 10px; border-radius: 999px; background: #f4f4f4; font-size: 11px; font-weight: 550; color: #5d5d6b; }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="stage">
+    <aside class="rail">
+      <div style="display:flex;gap:10px;align-items:center;padding:6px 8px;margin-bottom:14px;">
+        <div class="avatar">P</div>
+        <div>
+          <div style="font-size:13.5px;font-weight:650;">Product Launch</div>
+          <div style="font-size:11px;color:#8e8ea0;">OpenPages Space</div>
+        </div>
+      </div>
+      <div style="padding:0 8px;font-size:11px;font-weight:600;color:#8e8ea0;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">Pages</div>
+      <div class="nav">Product Roadmap</div>
+      <div class="nav on">Onboarding Prototype</div>
+      <div class="nav">Launch Notes</div>
+      <div class="nav">SuperCompress Spec</div>
+    </aside>
+    <div>
+      <div class="doc-bar">
+        <span>Onboarding Prototype</span>
+        <span class="pill">Shared · 4</span>
+      </div>
+      <div class="body">
+        <div class="h">Onboarding 2.0</div>
+        <div class="p">Visualize the first-run Space experience. Agent drafts the checklist; humans edit the copy. SuperCompress keeps the evidence pack under budget.</div>
+        <div class="proto">
+          <div class="proto-title">Wireframe · first session</div>
+          <div class="wire">OpenPages · Create Space → Invite agents → First page</div>
+          <ul class="checks">
+            <li><span class="ck">✓</span> Welcome page generated from template</li>
+            <li><span class="ck">✓</span> SuperCompress linked</li>
+            <li><span class="ck">✓</span> MCP server connected</li>
+            <li><span style="width:16px;height:16px;border-radius:5px;border:1px solid #e5e5e5;display:inline-block;"></span> Launch checklist signed off</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <aside class="rail rail-r">
+      <div class="ctx">Context</div>
+      <div class="row"><span>Sources</span><strong>4</strong></div>
+      <div class="row"><span>Retrieved</span><strong>38.5k</strong></div>
+      <div class="row"><span>Kept</span><strong style="color:#0450cc;">11.2k</strong></div>
+      <div class="sc">
+        <div class="sc-top"><span>SuperCompress</span><span>70.9%</span></div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div style="margin-top:22px;font-size:12px;color:#5d5d6b;line-height:1.45;">
+        Agent used Launch Notes + Roadmap. Evidence retained after compression.
+      </div>
+    </aside>
+  </div>
+</body>
+</html>
