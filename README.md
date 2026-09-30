@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <strong>OpenPages</strong><br />
+  <em>Your workspace, built for humans and agents.</em>
+</p>
 
-## Getting Started
+<p align="center">
+  Open-source AI workspace with persistent Spaces, collaborative pages,<br />
+  and <a href="https://www.supercompress.dev"><strong>SuperCompress</strong></a> as the core context layer.
+</p>
 
-First, run the development server:
+<p align="center">
+  <a href="#local-development">Quick start</a> ·
+  <a href="#why-supercompress">Why SuperCompress</a> ·
+  <a href="ARCHITECTURE.md">Architecture</a> ·
+  <a href="#mcp">MCP</a> ·
+  <a href="#docker">Docker</a>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## The pitch
+
+Most AI workspaces dump the whole room into the model.
+
+**OpenPages does not.**
+
+```
+Workspace → Retrieval → SuperCompress → Model
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Your Space can grow forever. Your context window — and your bill — do not grow with it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Persistent context without persistent token costs.**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+OpenPages is a real product (Spaces, Pages, agents, MCP) and a living demo of [SuperCompress](https://www.supercompress.dev): query-aware context compression that keeps answer-critical evidence and drops the rest.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Why SuperCompress
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Without SuperCompress | With SuperCompress |
+|---|---|
+| Stuff Notion / Drive dumps into Claude | Retrieve candidates, compress against the *query* |
+| Token bill scales with workspace size | Token bill scales with *relevant* evidence |
+| Truncate or summarize → lose IDs / errors | Keep original wording for what matters |
+| “Hope the model finds it” | Context inspector shows sources + savings |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Every chat turn, agent run, and MCP `workspace_context` call:
 
-## Deploy on Vercel
+1. **Retrieve** relevant pages, files, and conversation snippets  
+2. **Compress** that candidate context with SuperCompress (hosted API or local offline stand-in)  
+3. **Infer** with your chosen model — OpenAI, Anthropic, Gemini, OpenRouter, or Ollama  
+4. **Show** original vs compressed tokens in the Context inspector  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+SuperCompress is not a plugin toggle. It is the economic layer that makes large agent workspaces viable.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Get a key: [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard) · Docs: [docs.supercompress.dev](https://docs.supercompress.dev)
+
+---
+
+## Features
+
+- **Spaces** — multi-space workspaces (pages, files, search, settings, agent activity)
+- **Pages** — Tiptap block editor, `/` commands, autosave, checklists, tables, mermaid
+- **Inline AI** — rewrite / improve / shorten / expand with accept / reject proposals
+- **Workspace agent** — cited answers over the Space
+- **Agent mode** — multi-step goals, activity timeline, page creation
+- **Context inspector** — sources, retrieved tokens, SuperCompress savings, expandable context
+- **Model agnostic** — providers behind SuperCompress, never instead of it
+- **MCP** — Cursor / Claude Code / Codex can search, read, write, and pull compressed context
+- **Version history** — user / agent / mcp attribution + restore
+- **Self-host** — SQLite by default, Docker Compose included
+
+---
+
+## Local development
+
+```bash
+git clone https://github.com/arjunkshah12345-hash/openpages.git
+cd openpages
+cp .env.example .env
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) → **Start a Space**.
+
+A **Product Launch** demo Space is seeded with pages that explain the SuperCompress pipeline so first-run chat already shows compression in the inspector.
+
+### Environment
+
+| Variable | Purpose |
+|----------|---------|
+| `SUPERCOMPRESS_API_KEY` | **Recommended.** Hosted SuperCompress ([dashboard](https://www.supercompress.dev/dashboard)) |
+| `SUPERCOMPRESS_API_URL` | Override compress endpoint (default `https://api.supercompress.dev/compress`) |
+| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY` / `OPENROUTER_API_KEY` | Model providers |
+| `OLLAMA_BASE_URL` | Local models (default `http://127.0.0.1:11434/v1`) |
+
+Without a SuperCompress key, OpenPages uses a local query-aware fallback so the pipeline and inspector still work. Without a model key, answers are demo replies — **retrieval + SuperCompress still run**.
+
+---
+
+## Docker
+
+```bash
+cp .env.example .env
+# set SUPERCOMPRESS_API_KEY + at least one model key
+docker compose up --build
+```
+
+Data persists in the `openpages-data` volume (`/data/openpages.db`).
+
+---
+
+## MCP
+
+Expose a Space to Cursor, Claude Code, Codex, and other MCP clients:
+
+```json
+{
+  "mcpServers": {
+    "openpages": {
+      "command": "node",
+      "args": ["/absolute/path/to/openpages/mcp/server.mjs"],
+      "env": {
+        "OPENPAGES_URL": "http://127.0.0.1:3000",
+        "OPENPAGES_SPACE_ID": "space_demo"
+      }
+    }
+  }
+}
+```
+
+Tools: `space_search`, `page_list`, `page_get`, `page_create`, `page_update`, `file_get`, **`workspace_context`** (retrieve + SuperCompress).
+
+HTTP bridge: `POST /api/mcp` with `{ "tool": "workspace_context", "arguments": { "spaceId": "...", "query": "..." } }`.
+
+---
+
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full map.
+
+```
+src/lib/retrieval/      → find candidates in the Space
+src/lib/supercompress/  → compress against the query (API + local)
+src/lib/models/         → provider-agnostic inference
+src/lib/ai/             → shared generate / demo helpers
+```
+
+---
+
+## Stack
+
+Next.js · TypeScript · Tailwind · Tiptap · Drizzle · SQLite · Vercel AI SDK · **SuperCompress**
+
+---
+
+## License
+
+MIT — build on it, self-host it, star it if SuperCompress made your agent workspace affordable.

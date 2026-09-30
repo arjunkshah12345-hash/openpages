@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "openpages": {
+      "command": "node",
+      "args": ["./mcp/server.mjs"],
+      "env": {
+        "OPENPAGES_URL": "http://127.0.0.1:3000",
+        "OPENPAGES_SPACE_ID": "space_demo"
+      }
+    }
+  }
+}

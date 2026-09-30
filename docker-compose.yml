@@ -1,0 +1,20 @@
+services:
+  openpages:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - OPENPAGES_DATA_DIR=/data
+      - SUPERCOMPRESS_API_KEY=${SUPERCOMPRESS_API_KEY:-}
+      - SUPERCOMPRESS_API_URL=${SUPERCOMPRESS_API_URL:-https://api.supercompress.dev/compress}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-}
+    volumes:
+      - openpages-data:/data
+    restart: unless-stopped
+
+volumes:
+  openpages-data:

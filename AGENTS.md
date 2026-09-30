@@ -1,9 +1,23 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# OpenPages — agent notes
 
-# This is NOT the Next.js you know
+This repo is an open-source **Spaces / Pages** workspace with **SuperCompress** as the core context layer.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## Non-negotiable
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+Every chat / agent / MCP `workspace_context` path:
 
-<!-- END:nextjs-agent-rules -->
+```
+Workspace → Retrieval → SuperCompress → Model
+```
+
+Implement via `buildCompressedContext` (`src/lib/supercompress/pipeline.ts`). Do not send raw Space dumps to models.
+
+## Key docs
+
+- [README.md](./README.md) — product + SuperCompress pitch
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — module map
+- SuperCompress: https://www.supercompress.dev · https://docs.supercompress.dev
+
+## Next.js note
+
+This Next.js version may differ from training data. Check `node_modules/next/dist/docs/` when unsure.
