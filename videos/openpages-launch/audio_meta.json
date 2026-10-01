@@ -1,0 +1,21 @@
+{
+  "tts_provider": null,
+  "voice_id": null,
+  "bgm": {
+    "path": "assets/bgm/track.wav",
+    "volume": 0.9,
+    "mode": "detached-seed-loop",
+    "duration_s": null
+  },
+  "bgm_pending": true,
+  "bgm_provider": "musicgen",
+  "bgm_pid": 14442,
+  "bgm_log": "/Users/arjunkshah21/Downloads/openpages/videos/openpages-launch/assets/bgm/bgm-1790743433668.log",
+  "bgm_mode": "detached-seed-loop",
+  "bgm_target_duration_s": 30,
+  "bgm_seed_duration_s": 28,
+  "bgm_loop_count": 2,
+  "voices": [],
+  "sfx": [],
+  "total_duration_s": 0
+}

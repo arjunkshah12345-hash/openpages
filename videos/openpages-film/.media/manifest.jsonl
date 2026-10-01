@@ -1,0 +1,5 @@
+{"id":"icon_001","type":"icon","path":"assets/openpages-mark.svg","source":"existing","description":"openpages mark","provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_001","type":"bgm","path":"assets/audio/master.wav","source":"existing","description":"master","duration":32,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_002","type":"bgm","path":"assets/audio/mix.wav","source":"existing","description":"mix","duration":32,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_003","type":"bgm","path":"assets/audio/score.wav","source":"existing","description":"score","duration":32,"provenance":{"provider":"local","adopted":true}}
+{"id":"sfx_001","type":"sfx","path":"assets/audio/sound-design.wav","source":"existing","description":"sound design","duration":32,"provenance":{"provider":"local","adopted":true}}

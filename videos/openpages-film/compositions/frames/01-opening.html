@@ -1,0 +1,193 @@
+<template>
+  <style>
+    @font-face {
+      font-family: Geist;
+      src: url('assets/fonts/geist.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root, #scene-01 {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: #0d0d0d;
+      font-family: Geist;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .s01-ground { position: absolute; inset: 0; background: #f7f7f8; }
+    .s01-content { position: absolute; inset: 0 0 auto; height: 896px; overflow: hidden; }
+    .s01-headline {
+      position: absolute;
+      top: 335px;
+      left: 0;
+      width: 1920px;
+      height: 215px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 39px;
+      font-size: 180px;
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: -10px;
+      white-space: nowrap;
+      z-index: 5;
+    }
+    .s01-word-mask { display: block; overflow: hidden; padding: 0 12px 14px; margin: 0 -12px; }
+    .s01-word { display: block; will-change: transform, opacity; }
+    .s01-documents { position: absolute; inset: 0; transform-origin: 960px 456px; }
+    .s01-document {
+      position: absolute;
+      width: 370px;
+      height: 244px;
+      box-sizing: border-box;
+      border: 1.5px solid #dedee0;
+      border-radius: 20px;
+      background: #ffffff;
+      padding: 29px 30px;
+      will-change: transform, opacity;
+      box-shadow: 0 9px 22px rgba(13, 13, 13, 0.035);
+    }
+    #s01-launch { left: 164px; top: 142px; z-index: 3; }
+    #s01-research { left: 1384px; top: 160px; z-index: 2; }
+    #s01-positioning { left: 328px; top: 628px; z-index: 1; }
+    .s01-document-top { display: flex; align-items: center; gap: 12px; }
+    .s01-file-icon { width: 18px; height: 23px; border: 1.6px solid #626268; border-radius: 3px; box-sizing: border-box; }
+    .s01-document-title { font-size: 26px; font-weight: 500; line-height: 1.2; letter-spacing: -0.7px; }
+    .s01-divider { height: 1.5px; background: #ececec; margin-top: 23px; }
+    .s01-document-body { margin-top: 24px; }
+    .s01-ink-line { height: 8px; border-radius: 2px; background: #dedee0; margin-bottom: 13px; }
+    .s01-line-long { width: 100%; }
+    .s01-line-mid { width: 82%; }
+    .s01-line-short { width: 58%; }
+    .s01-launch-accent { width: 66px; height: 8px; background: #0566ff; border-radius: 2px; margin-bottom: 17px; }
+    .s01-research-body { display: flex; gap: 19px; }
+    .s01-research-chart { position: relative; width: 88px; height: 77px; background: #f7f7f8; border-radius: 8px; display: flex; align-items: flex-end; gap: 7px; padding: 13px; box-sizing: border-box; }
+    .s01-bar { width: 16px; background: #a8c8ff; border-radius: 2px 2px 0 0; }
+    .s01-bar-one { height: 23px; }
+    .s01-bar-two { height: 36px; }
+    .s01-bar-three { height: 49px; background: #0566ff; }
+    .s01-research-lines { flex: 1; padding-top: 6px; }
+    .s01-positioning-body { display: flex; gap: 17px; }
+    .s01-quote-rule { width: 4px; height: 63px; background: #10a37f; border-radius: 2px; }
+    .s01-positioning-lines { flex: 1; padding-top: 4px; }
+    .s01-lockup { position: absolute; left: 398px; top: 330px; width: 1140px; height: 220px; }
+    .s01-mark { position: absolute; top: 46px; left: 0; width: 148px; height: 148px; object-fit: contain; }
+    .s01-brand-mask { position: absolute; left: 181px; top: 0; width: 970px; height: 220px; overflow: hidden; }
+    .s01-brand {
+      display: block;
+      font-size: 180px;
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -10px;
+      white-space: nowrap;
+      padding-right: 12px;
+      will-change: transform, opacity;
+    }
+    .s01-promise { position: absolute; left: 250px; width: 1420px; text-align: center; font-size: 55px; font-weight: 400; line-height: 1.16; letter-spacing: -1.8px; }
+    #s01-promise-one { top: 595px; }
+    #s01-promise-two { top: 665px; color: #626268; }
+    .s01-promise-mask { overflow: hidden; padding-bottom: 8px; }
+    .s01-promise-line { display: block; will-change: transform, opacity; }
+  </style>
+
+  <div data-hf-id="hf-1cpr" id="scene-01" data-composition-id="01-opening" data-width="1920" data-height="1080" data-duration="8">
+    <div data-hf-id="hf-tyfw" id="s01-ground" class="clip s01-ground" data-start="0" data-duration="8" data-track-index="0"></div>
+    <div data-hf-id="hf-zp8n" id="s01-content" class="clip s01-content" data-start="0" data-duration="8" data-track-index="1">
+      <div data-hf-id="hf-p6zc" id="s01-documents" class="s01-documents">
+        <div data-hf-id="hf-3xhs" id="s01-launch" class="s01-document">
+          <div data-hf-id="hf-s0cy" class="s01-document-top"><span data-hf-id="hf-6rn6" class="s01-file-icon"></span><span data-hf-id="hf-pvnr" class="s01-document-title">Launch brief</span></div>
+          <div data-hf-id="hf-klna" class="s01-divider"></div>
+          <div data-hf-id="hf-o4b9" class="s01-document-body">
+            <div data-hf-id="hf-y0ct" class="s01-launch-accent"></div>
+            <div data-hf-id="hf-gjas" class="s01-ink-line s01-line-long"></div>
+            <div data-hf-id="hf-h0k8" class="s01-ink-line s01-line-mid"></div>
+            <div data-hf-id="hf-mg7o" class="s01-ink-line s01-line-short"></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-hx2q" id="s01-research" class="s01-document">
+          <div data-hf-id="hf-edxy" class="s01-document-top"><span data-hf-id="hf-kkl2" class="s01-file-icon"></span><span data-hf-id="hf-xke0" class="s01-document-title">Research notes</span></div>
+          <div data-hf-id="hf-cpdm" class="s01-divider"></div>
+          <div data-hf-id="hf-ub6c" class="s01-document-body s01-research-body">
+            <div data-hf-id="hf-jrbv" class="s01-research-chart"><span data-hf-id="hf-9vrw" class="s01-bar s01-bar-one"></span><span data-hf-id="hf-qsvq" class="s01-bar s01-bar-two"></span><span data-hf-id="hf-rrjk" class="s01-bar s01-bar-three"></span></div>
+            <div data-hf-id="hf-f4cu" class="s01-research-lines"><div data-hf-id="hf-vhe4" class="s01-ink-line s01-line-long"></div><div data-hf-id="hf-zqsw" class="s01-ink-line s01-line-mid"></div><div data-hf-id="hf-uah1" class="s01-ink-line s01-line-long"></div><div data-hf-id="hf-myss" class="s01-ink-line s01-line-short"></div></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-2ewc" id="s01-positioning" class="s01-document">
+          <div data-hf-id="hf-es8z" class="s01-document-top"><span data-hf-id="hf-kyw3" class="s01-file-icon"></span><span data-hf-id="hf-fgq9" class="s01-document-title">Positioning</span></div>
+          <div data-hf-id="hf-d3on" class="s01-divider"></div>
+          <div data-hf-id="hf-1dy4" class="s01-document-body s01-positioning-body"><div data-hf-id="hf-s3g4" class="s01-quote-rule"></div><div data-hf-id="hf-m4kk" class="s01-positioning-lines"><div data-hf-id="hf-uos2" class="s01-ink-line s01-line-long"></div><div data-hf-id="hf-yjvt" class="s01-ink-line s01-line-mid"></div><div data-hf-id="hf-lrvp" class="s01-ink-line s01-line-short"></div></div></div>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-o0yd" id="s01-big" class="s01-headline" aria-label="Big ideas.">
+        <span data-hf-id="hf-ajrn" class="s01-word-mask"><span data-hf-id="hf-jl6e" id="s01-big-one" class="s01-word">Big</span></span>
+        <span data-hf-id="hf-kwdv" class="s01-word-mask"><span data-hf-id="hf-50z0" id="s01-big-two" class="s01-word">ideas.</span></span>
+      </div>
+      <div data-hf-id="hf-tqwe" id="s01-need" class="s01-headline" aria-label="Need room.">
+        <span data-hf-id="hf-ki2u" class="s01-word-mask"><span data-hf-id="hf-n1q8" id="s01-need-one" class="s01-word">Need</span></span>
+        <span data-hf-id="hf-k3rt" class="s01-word-mask"><span data-hf-id="hf-ojrd" id="s01-need-two" class="s01-word">room.</span></span>
+      </div>
+
+      <div data-hf-id="hf-rwtd" class="s01-lockup">
+        <img data-hf-id="hf-6wo3" id="s01-mark" class="s01-mark" src="assets/openpages-mark.svg" alt="">
+        <div data-hf-id="hf-ql3f" class="s01-brand-mask"><span data-hf-id="hf-pfhp" id="s01-brand" class="s01-brand">OpenPages</span></div>
+      </div>
+      <div data-hf-id="hf-g71l" id="s01-promise-one" class="s01-promise"><div data-hf-id="hf-4bj3" class="s01-promise-mask"><span data-hf-id="hf-9k0n" id="s01-promise-first" class="s01-promise-line">A shared space.</span></div></div>
+      <div data-hf-id="hf-3ua7" id="s01-promise-two" class="s01-promise"><div data-hf-id="hf-mnz3" class="s01-promise-mask"><span data-hf-id="hf-djrl" id="s01-promise-second" class="s01-promise-line">For you and your AI.</span></div></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+
+      // The first two words emerge from separate masks, with a crisp long tail.
+      tl.fromTo('#s01-big-one', { yPercent: 112 }, { yPercent: 0, duration: 0.78, ease: 'expo.out' }, 0.04);
+      tl.fromTo('#s01-big-two', { yPercent: 112 }, { yPercent: 0, duration: 0.88, ease: 'expo.out' }, 0.18);
+
+      // Every source keeps its identity from arrival through the final stack.
+      tl.fromTo('#s01-launch', { x: -630, y: 100, rotation: -18, autoAlpha: 0 }, { x: 0, y: 0, rotation: -9, autoAlpha: 1, duration: 0.94, ease: 'expo.out' }, 0.90);
+      tl.fromTo('#s01-research', { x: 650, y: -70, rotation: 18, autoAlpha: 0 }, { x: 0, y: 0, rotation: 9, autoAlpha: 1, duration: 0.92, ease: 'expo.out' }, 1.02);
+      tl.fromTo('#s01-positioning', { x: -230, y: 380, rotation: -12, autoAlpha: 0 }, { x: 0, y: 0, rotation: -5, autoAlpha: 1, duration: 0.79, ease: 'expo.out' }, 1.18);
+
+      // A velocity-matched waterfall carries the two-word thought across the cut.
+      tl.to('#s01-big-one', { x: -230, duration: 0.34, ease: 'power4.in' }, 1.82);
+      tl.to('#s01-big-one', { autoAlpha: 0, duration: 0.18, ease: 'power1.in' }, 1.82);
+      tl.to('#s01-big-two', { x: -230, duration: 0.34, ease: 'power4.in' }, 1.842);
+      tl.to('#s01-big-two', { autoAlpha: 0, duration: 0.18, ease: 'power1.in' }, 1.842);
+      tl.fromTo('#s01-need-one', { x: 230, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.34, ease: 'power4.out' }, 2.022);
+      tl.fromTo('#s01-need-two', { x: 230, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.34, ease: 'power4.out' }, 2.072);
+      tl.to('#s01-launch', { x: 68, y: 12, rotation: -6, duration: 0.75, ease: 'power3.inOut' }, 2.00);
+      tl.to('#s01-research', { x: -68, y: 15, rotation: 6, duration: 0.75, ease: 'power3.inOut' }, 2.00);
+      tl.to('#s01-positioning', { x: 67, y: -15, rotation: -3, duration: 0.75, ease: 'power3.inOut' }, 2.00);
+
+      // The phrase recedes as its separate sources become one tangible object.
+      tl.to('#s01-need', { scale: 0.80, filter: 'blur(10px)', duration: 0.20, ease: 'power3.in' }, 3.05);
+      tl.to('#s01-need', { autoAlpha: 0, duration: 0.20, ease: 'none' }, 3.05);
+      tl.to('#s01-launch', { x: 611, y: 192, rotation: 0, duration: 0.86, ease: 'power4.inOut' }, 2.94);
+      tl.to('#s01-research', { x: -605, y: 174, rotation: 7, duration: 0.86, ease: 'power4.inOut' }, 3.00);
+      tl.to('#s01-positioning', { x: 443, y: -288, rotation: -7, duration: 0.86, ease: 'power4.inOut' }, 3.06);
+      tl.to(['#s01-research .s01-document-top','#s01-positioning .s01-document-top'], {autoAlpha:0,duration:0.18},3.32);
+
+      // The stack resolves square, then compresses into the supplied brand mark.
+      tl.to(['#s01-research', '#s01-positioning'], { rotation: 0, duration: 0.27, ease: 'power3.inOut' }, 4.00);
+      tl.to('#s01-documents', { x: -488, y: -6, scale: 0.18, rotation: -45, duration: 0.78, ease: 'power4.inOut' }, 4.10);
+      tl.to('#s01-documents', { autoAlpha: 0, duration: 0.16, ease: 'power2.inOut' }, 4.66);
+      tl.fromTo('#s01-mark', { scale: 0.52, rotation: 10, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.65, ease: 'expo.out' }, 4.64);
+      tl.fromTo('#s01-brand', { x: -958, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1.02, ease: 'expo.out' }, 4.78);
+
+      // Two late arrivals leave a full second of stillness for the complete idea.
+      tl.fromTo('#s01-promise-first', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.79, ease: 'expo.out' }, 6.00);
+      tl.fromTo('#s01-promise-second', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.79, ease: 'expo.out' }, 6.52);
+      tl.set('#s01-mark', { autoAlpha: 1 }, 8);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['01-opening'] = tl;
+    })();
+  </script>
+</template>

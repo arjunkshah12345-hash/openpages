@@ -9,19 +9,18 @@ import {
   Search,
   Paperclip,
   ChevronLeft,
-  Sparkles,
+  LayoutGrid,
+  FileText,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrandMark } from "@/components/brand/mark";
+import { toast } from "sonner";
 
-type PageItem = {
-  id: string;
-  title: string;
-  icon: string | null;
-};
-
+type PageItem = { id: string; title: string; icon: string | null };
 type SpaceInfo = {
   id: string;
   name: string;
@@ -29,6 +28,11 @@ type SpaceInfo = {
   description: string | null;
 };
 
+function initial(name: string) {
+  return (name.trim()[0] || "S").toUpperCase();
+}
+
+/** Matches landing workspace rail */
 export function SpaceSidebar({
   space,
   pages,
@@ -51,53 +55,84 @@ export function SpaceSidebar({
       const res = await fetch("/api/pages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          spaceId: space.id,
-          title: "Untitled",
-        }),
+        body: JSON.stringify({ spaceId: space.id, title: "Untitled" }),
       });
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not create page");
       router.push(`/spaces/${space.id}/pages/${data.id}`);
       router.refresh();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not create page");
     } finally {
       setCreating(false);
     }
   };
 
+  const deletePage = async (pageId: string, title: string) => {
+    if (!window.confirm(`Delete “${title || "Untitled"}”? This can’t be undone.`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/pages/${pageId}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      toast.success("Page deleted");
+      if (pathname.includes(pageId)) {
+        router.push(`/spaces/${space.id}`);
+      }
+      router.refresh();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not delete page");
+    }
+  };
+
   return (
-    <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-[var(--border)] bg-[var(--sidebar)]">
-      <div className="flex items-center gap-2 px-3 py-3">
+    <aside className="op-rail flex h-full w-[248px] shrink-0 flex-col border-r border-[#e9e9e4]">
+      <div className="flex items-center gap-2 px-3.5 pb-1 pt-4">
         <Link
           href="/spaces"
-          className="rounded-md p-1.5 text-[var(--ink-faint)] hover:bg-[var(--surface)] hover:text-[var(--ink)]"
+          className="op-mark flex items-center gap-1.5 text-[14px] text-[var(--ink)]"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <BrandMark size={18} />
+          <span className="tracking-tight">OpenPages</span>
         </Link>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 truncate text-sm font-semibold text-[var(--ink)]">
-            <span className="text-base leading-none">{space.icon}</span>
-            <span className="truncate">{space.name}</span>
-          </div>
-        </div>
+        <Link
+          href="/spaces"
+          className="ml-auto rounded-md p-1 text-[var(--ink-faint)] transition-colors hover:bg-white hover:text-[var(--ink)]"
+          aria-label="All Spaces"
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+        </Link>
       </div>
 
-      <div className="px-3 pb-2">
+      <div className="px-3 pb-2 pt-3">
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--ink-faint)]" />
+          <Search className="absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-[var(--ink-faint)]" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search pages…"
-            className="h-8 pl-8 text-xs bg-[var(--paper)]"
+            placeholder="Search"
+            className="h-8 rounded-lg border-transparent bg-transparent pl-8 text-[12px] tracking-normal shadow-none placeholder:text-[var(--ink-faint)] focus-visible:border-[var(--border)] focus-visible:ring-0"
           />
         </div>
       </div>
 
-      <nav className="flex flex-col gap-0.5 px-2 pb-2">
+      <div className="px-3 pb-2">
+        <div className="op-eyebrow mb-2 px-1.5">Your space</div>
+        <div className="mb-1 flex items-center gap-2 px-1.5 py-1">
+          <div className="grid size-5 place-items-center rounded border border-[#d4dcd3] bg-[#e4ece2] text-[10px] font-medium text-[#547149]">
+            {initial(space.name)}
+          </div>
+          <span className="truncate text-[12px] font-medium tracking-tight text-[var(--ink)]">
+            {space.name}
+          </span>
+        </div>
+      </div>
+
+      <nav className="flex flex-col gap-0.5 px-2">
         <NavLink
           href={`/spaces/${space.id}`}
           active={pathname === `/spaces/${space.id}`}
-          icon={<Sparkles className="h-3.5 w-3.5" />}
+          icon={<LayoutGrid className="h-3.5 w-3.5" />}
         >
           Overview
         </NavLink>
@@ -106,7 +141,7 @@ export function SpaceSidebar({
           active={pathname.includes("/agent")}
           icon={<MessageSquare className="h-3.5 w-3.5" />}
         >
-          Agent
+          Chat
         </NavLink>
         <NavLink
           href={`/spaces/${space.id}/files`}
@@ -124,57 +159,72 @@ export function SpaceSidebar({
         </NavLink>
       </nav>
 
-      <div className="mt-1 flex items-center justify-between px-4 py-2">
-        <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--ink-faint)]">
-          Pages
-        </span>
+      <div className="mt-5 flex items-center justify-between px-4 pb-1.5">
+        <span className="op-eyebrow">Pages</span>
         <button
           type="button"
           onClick={createPage}
           disabled={creating}
-          className="rounded p-0.5 text-[var(--ink-faint)] hover:bg-[var(--surface)] hover:text-[var(--ink)]"
-          title="New page"
+          className="rounded-md p-1 text-[var(--ink-faint)] transition-colors hover:bg-white hover:text-[var(--ink)]"
+          aria-label="New page"
         >
           <Plus className="h-3.5 w-3.5" />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-2 pb-4">
+      <div className="flex-1 overflow-y-auto px-2 pb-3">
         {filtered.map((page) => {
           const href = `/spaces/${space.id}/pages/${page.id}`;
           const active = pathname === href;
           return (
-            <Link
+            <div
               key={page.id}
-              href={href}
               className={cn(
-                "mb-0.5 flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors",
-                active
-                  ? "bg-[var(--surface-2)] text-[var(--ink)] font-medium"
-                  : "text-[var(--ink-muted)] hover:bg-[var(--surface)] hover:text-[var(--ink)]"
+                "group mb-0.5 flex items-center gap-0.5 rounded-[6px]",
+                active ? "op-nav-active" : "hover:bg-[#eeeee8]"
               )}
             >
-              <span className="text-sm leading-none">{page.icon || "📄"}</span>
-              <span className="truncate">{page.title}</span>
-            </Link>
+              <Link
+                href={href}
+                className={cn(
+                  "flex min-w-0 flex-1 items-center gap-2 px-2 py-2 text-[12.5px] tracking-normal",
+                  active ? "text-[#30352b]" : "op-nav-idle"
+                )}
+              >
+                <FileText
+                  className={cn(
+                    "h-3.5 w-3.5 shrink-0",
+                    active ? "text-[#30352b]" : "text-[var(--ink-faint)]"
+                  )}
+                />
+                <span className="truncate">{page.title}</span>
+              </Link>
+              <button
+                type="button"
+                aria-label={`Delete ${page.title}`}
+                className="mr-1 rounded p-1 text-[var(--ink-faint)] opacity-0 transition group-hover:opacity-100 hover:bg-white hover:text-red-600"
+                onClick={() => void deletePage(page.id, page.title)}
+              >
+                <Trash2 className="h-3 w-3" />
+              </button>
+            </div>
           );
         })}
         {filtered.length === 0 && (
-          <div className="px-2 py-6 text-center text-xs text-[var(--ink-faint)]">
+          <div className="px-2 py-8 text-center text-[11px] text-[var(--ink-faint)]">
             No pages yet
           </div>
         )}
       </div>
 
-      <div className="border-t border-[var(--border)] p-3">
+      <div className="border-t border-[#e9e9e4] p-2.5">
         <Button
-          variant="accent"
           size="sm"
-          className="w-full"
+          className="h-8 w-full text-[12px] tracking-normal"
           onClick={() => router.push(`/spaces/${space.id}/agent`)}
         >
           <MessageSquare className="h-3.5 w-3.5" />
-          Open agent
+          Message Space
         </Button>
       </div>
     </aside>
@@ -189,20 +239,20 @@ function NavLink({
 }: {
   href: string;
   active: boolean;
-  icon: React.ReactNode;
-  children: React.ReactNode;
+  icon: ReactNode;
+  children: ReactNode;
 }) {
   return (
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors",
-        active
-          ? "bg-[var(--surface-2)] text-[var(--ink)] font-medium"
-          : "text-[var(--ink-muted)] hover:bg-[var(--surface)] hover:text-[var(--ink)]"
+        "flex items-center gap-2 rounded-[6px] px-2 py-2 text-[12.5px] tracking-normal transition-colors",
+        active ? "op-nav-active" : "op-nav-idle"
       )}
     >
-      {icon}
+      <span className={active ? "text-[#30352b]" : "text-[var(--ink-faint)]"}>
+        {icon}
+      </span>
       {children}
     </Link>
   );

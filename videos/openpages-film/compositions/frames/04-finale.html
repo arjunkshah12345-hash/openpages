@@ -1,0 +1,172 @@
+<template>
+  <style>
+    @font-face {
+      font-family: Geist;
+      src: url('assets/fonts/geist.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root, #scene-04 {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: #0d0d0d;
+      font-family: Geist;
+      -webkit-font-smoothing: antialiased;
+    }
+    .s04-ground { position: absolute; inset: 0; background: #f7f7f8; }
+    .s04-content { position: absolute; inset: 0 0 auto; height: 896px; overflow: hidden; }
+    .s04-editorial { position: absolute; inset: 0; transform-origin: 960px 448px; }
+    .s04-headline {
+      position: absolute;
+      top: 172px;
+      left: 156px;
+      display: flex;
+      align-items: baseline;
+      gap: 39px;
+      font-size: 180px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -9.9px;
+      white-space: nowrap;
+    }
+    .s04-mask { display: block; overflow: hidden; padding: 0 10px 12px; margin: 0 -10px; }
+    .s04-word { display: block; will-change: transform, opacity; }
+
+    /* Adapted from kinetic-type-swap: all options own the same grid cell.
+       The widest option determines slot width before the first frame. */
+    .s04-fixed-slot { display: inline-grid; flex: 0 0 auto; overflow: hidden; padding: 0 10px 12px; margin: 0 -10px; vertical-align: baseline; }
+    .s04-slot-word { grid-area: 1 / 1; width: max-content; justify-self: start; will-change: transform, opacity; }
+    .s04-model-rail {
+      position: absolute;
+      left: 162px;
+      top: 437px;
+      font-size: 100px;
+      font-weight: 400;
+      line-height: 1.16;
+      letter-spacing: -4px;
+      color: #087b60;
+    }
+    .s04-capabilities {
+      position: absolute;
+      top: 466px;
+      left: 685px;
+      display: flex;
+      gap: 15px;
+      align-items: baseline;
+      font-size: 51px;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -1.9px;
+      white-space: nowrap;
+    }
+    .s04-agent-line { position: absolute; top: 666px; left: 164px; font-size: 32px; line-height: 1.2; letter-spacing: -0.65px; color: #626268; }
+    .s04-lockup { position: absolute; left: 398px; top: 330px; width: 1140px; height: 220px; transform-origin: 562px 110px; }
+    .s04-mark { position: absolute; top: 46px; left: 0; width: 148px; height: 148px; object-fit: contain; }
+    .s04-brand-mask { position: absolute; left: 181px; top: 0; width: 970px; height: 220px; overflow: hidden; }
+    .s04-brand { display: block; padding-right: 12px; font-size: 180px; font-weight: 500; line-height: 1.12; letter-spacing: -10px; white-space: nowrap; will-change: transform, opacity; }
+    .s04-openness { position: absolute; top: 575px; left: 150px; width: 1620px; display: flex; align-items: baseline; justify-content: center; gap: 15px; font-size: 51px; font-weight: 400; line-height: 1.2; letter-spacing: -1.7px; white-space: nowrap; }
+    .s04-possibilities { color: #626268; }
+    .s04-cta { position: absolute; top: 704px; left: 670px; width: 580px; display: flex; justify-content: center; align-items: center; gap: 20px; color: #087b60; }
+    .s04-cta-text { font-size: 45px; font-weight: 500; line-height: 1.2; letter-spacing: -1.2px; }
+    .s04-arrow { display: block; width: 38px; height: 38px; margin-top: -7px; will-change: transform, opacity; }
+    .s04-footer { position: absolute; left: 360px; top: 803px; width: 1200px; text-align: center; font-size: 27px; font-weight: 400; line-height: 1.2; letter-spacing: -0.5px; color: #626268; }
+  </style>
+
+  <div data-hf-id="hf-472e" id="scene-04" data-composition-id="04-finale" data-width="1920" data-height="1080" data-duration="8">
+    <div data-hf-id="hf-04jo" id="s04-ground" class="clip s04-ground" data-start="0" data-duration="8" data-track-index="0"></div>
+    <div data-hf-id="hf-8q2h" id="s04-content" class="clip s04-content" data-start="0" data-duration="8" data-track-index="1">
+      <div data-hf-id="hf-pl2w" id="s04-editorial" class="s04-editorial">
+        <div data-hf-id="hf-silk" class="s04-headline">
+          <span data-hf-id="hf-t83t" class="s04-mask"><span data-hf-id="hf-6nkh" id="s04-your" class="s04-word">Your</span></span>
+          <span data-hf-id="hf-k7qa" class="s04-fixed-slot">
+            <span data-hf-id="hf-r4li" id="s04-model" class="s04-slot-word">model.</span>
+            <span data-hf-id="hf-w4vc" id="s04-workflow" class="s04-slot-word">workflow.</span>
+          </span>
+        </div>
+        <div data-hf-id="hf-zfe8" class="s04-model-rail">
+          <span data-hf-id="hf-4dty" class="s04-fixed-slot">
+            <span data-hf-id="hf-0qso" id="s04-openai" class="s04-slot-word">OpenAI</span>
+            <span data-hf-id="hf-rezs" id="s04-anthropic" class="s04-slot-word">Anthropic</span>
+            <span data-hf-id="hf-zx26" id="s04-gemini" class="s04-slot-word">Gemini</span>
+            <span data-hf-id="hf-qb04" id="s04-ollama" class="s04-slot-word">Ollama</span>
+            <span data-hf-id="hf-8xp4" id="s04-mcp" class="s04-slot-word">MCP</span>
+          </span>
+        </div>
+        <div data-hf-id="hf-egv6" class="s04-capabilities">
+          <span data-hf-id="hf-y98d" class="s04-mask"><span data-hf-id="hf-cvrb" id="s04-search" class="s04-word">Search.</span></span>
+          <span data-hf-id="hf-zg5g" class="s04-mask"><span data-hf-id="hf-fndz" id="s04-read" class="s04-word">Read.</span></span>
+          <span data-hf-id="hf-z1uf" class="s04-mask"><span data-hf-id="hf-g17v" id="s04-create" class="s04-word">Create.</span></span>
+        </div>
+        <div data-hf-id="hf-s2xm" class="s04-agent-line"><span data-hf-id="hf-08ri" class="s04-mask"><span data-hf-id="hf-fe4a" id="s04-agent-copy" class="s04-word">Built for your agents.</span></span></div>
+      </div>
+
+      <div data-hf-id="hf-5vxm" id="s04-lockup" class="s04-lockup">
+        <img data-hf-id="hf-txyv" id="s04-mark" class="s04-mark" src="assets/openpages-mark.svg" alt="">
+        <div data-hf-id="hf-xrdk" class="s04-brand-mask"><span data-hf-id="hf-aul3" id="s04-brand" class="s04-brand">OpenPages</span></div>
+      </div>
+      <div data-hf-id="hf-coj5" class="s04-openness">
+        <span data-hf-id="hf-zugh" class="s04-mask"><span data-hf-id="hf-tz8a" id="s04-open-source" class="s04-word">Open source.</span></span>
+        <span data-hf-id="hf-11dk" class="s04-mask"><span data-hf-id="hf-9me7" id="s04-open-possibilities" class="s04-word s04-possibilities">Open possibilities.</span></span>
+      </div>
+      <div data-hf-id="hf-sag6" class="s04-cta">
+        <span data-hf-id="hf-0n2j" class="s04-mask"><span data-hf-id="hf-lh6s" id="s04-cta-copy" class="s04-word s04-cta-text">Start a Space</span></span>
+        <svg data-hf-id="hf-4392" id="s04-cta-arrow" class="s04-arrow" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path data-hf-id="hf-yeb3" d="M9 31L31 9M10 9H31V30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </div>
+      <div data-hf-id="hf-hc9t" class="s04-footer"><span data-hf-id="hf-1tzm" class="s04-mask"><span data-hf-id="hf-next" id="s04-footer-copy" class="s04-word">Self-host it. Make it yours.</span></span></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo('#s04-your', { yPercent: 112 }, { yPercent: 0, duration: 0.72, ease: 'expo.out' }, 0.02);
+      tl.fromTo('#s04-model', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.78, ease: 'expo.out' }, 0.08);
+      tl.fromTo('#s04-openai', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.30, ease: 'power4.out' }, 0.04);
+
+      // Fixed-slot swaps inherit the component's opposite-edge mask exchange.
+      // The outgoing name leaves before the incoming name reaches its baseline.
+      const modelSwaps = [
+        ['#s04-openai', '#s04-anthropic', 0.44],
+        ['#s04-anthropic', '#s04-gemini', 0.94],
+        ['#s04-gemini', '#s04-ollama', 1.44],
+        ['#s04-ollama', '#s04-mcp', 1.91]
+      ];
+      modelSwaps.forEach(([outgoing, incoming, at]) => {
+        tl.to(outgoing, { yPercent: -112, duration: 0.15, ease: 'power4.in' }, at);
+        tl.set(outgoing, { autoAlpha: 0 }, at + 0.15);
+        tl.fromTo(incoming, { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.18, ease: 'power4.out' }, at + 0.13);
+      });
+
+      // Only the variable word moves; the prefix and intrinsic grid width hold.
+      tl.to('#s04-model', { yPercent: -112, duration: 0.18, ease: 'power4.in' }, 1.86);
+      tl.set('#s04-model', { autoAlpha: 0 }, 2.04);
+      tl.fromTo('#s04-workflow', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.38, ease: 'power4.out' }, 2.02);
+      tl.fromTo('#s04-search', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.48, ease: 'expo.out' }, 2.42);
+      tl.fromTo('#s04-read', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.48, ease: 'expo.out' }, 2.62);
+      tl.fromTo('#s04-create', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.48, ease: 'expo.out' }, 2.82);
+      tl.fromTo('#s04-agent-copy', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.55, ease: 'expo.out' }, 3.12);
+
+      // A single receding move gathers the editorial layout onto the brand axis.
+      tl.to('#s04-editorial', { scale: 0.70, y: 54, filter: 'blur(10px)', duration: 0.26, ease: 'power3.in' }, 3.76);
+      tl.to('#s04-editorial', { autoAlpha: 0, duration: 0.26, ease: 'none' }, 3.76);
+      tl.fromTo('#s04-lockup', { scale: 1.14 }, { scale: 1, duration: 0.82, ease: 'expo.out' }, 4.02);
+      tl.fromTo('#s04-mark', { scale: 0.70, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.70, ease: 'expo.out' }, 4.02);
+      tl.fromTo('#s04-brand', { x: -958, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.98, ease: 'expo.out' }, 4.12);
+      tl.fromTo('#s04-open-source', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.70, ease: 'expo.out' }, 5.00);
+      tl.fromTo('#s04-open-possibilities', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.76, ease: 'expo.out' }, 5.22);
+
+      tl.fromTo('#s04-cta-copy', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.72, ease: 'expo.out' }, 6.08);
+      tl.fromTo('#s04-cta-arrow', { x: -10, y: 10, autoAlpha: 0 }, { x: 0, y: 0, autoAlpha: 1, duration: 0.56, ease: 'power3.out' }, 6.34);
+      tl.fromTo('#s04-footer-copy', { yPercent: 112, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.66, ease: 'expo.out' }, 6.52);
+      tl.set('#s04-cta-copy', { autoAlpha: 1 }, 8);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['04-finale'] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,11 @@
+{
+  "name": "openpages-film",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.99 preview",
+    "check": "npx --yes hyperframes@0.8.99 check",
+    "render": "npx --yes hyperframes@0.8.99 render",
+    "publish": "npx --yes hyperframes@0.8.99 publish"
+  }
+}

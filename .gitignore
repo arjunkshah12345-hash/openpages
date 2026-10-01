@@ -43,3 +43,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch / scrapes
+.scratch/
+
+# heavy video masters (web edition lives in public/media/)
+videos/**/renders/
+videos/**/assets/audio/
+videos/**/node_modules/
+videos/**/.hyperframes/

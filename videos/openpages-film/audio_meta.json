@@ -1,0 +1,15 @@
+{
+  "tts_provider": null,
+  "voice_id": null,
+  "voices": [],
+  "sfx": [],
+  "bgm": {
+    "path": "assets/audio/master.wav",
+    "volume": 1,
+    "duration_s": 32,
+    "mode": "original-composition"
+  },
+  "total_duration_s": 32,
+  "bgm_pending": false,
+  "provenance": "Original deterministic composition and sound design. All oscillators and noise generated locally; no third-party recordings. See scripts/score.py and assets/audio/score-map.json."
+}

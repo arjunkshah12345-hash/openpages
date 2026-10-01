@@ -32,6 +32,7 @@ export const APP = {
   defaultModel: "openai/gpt-4o-mini",
 } as const;
 
+/** Env-only check. Prefer resolveSuperCompressKey() from settings/store on the server. */
 export function hasSuperCompressKey(): boolean {
   return Boolean(SUPERCOMPRESS.apiKey);
 }

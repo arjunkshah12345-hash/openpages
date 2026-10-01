@@ -1,5 +1,10 @@
 import { estimateTokens } from "@/lib/utils";
 import { SUPERCOMPRESS } from "@/lib/config";
+import {
+  resolveForceLocalCompress,
+  resolveSuperCompressKey,
+  resolveSuperCompressUrl,
+} from "@/lib/settings/store";
 
 /**
  * SuperCompress client for OpenPages.
@@ -9,6 +14,7 @@ import { SUPERCOMPRESS } from "@/lib/config";
  *
  * Hosted API: https://docs.supercompress.dev
  * Local fallback keeps the app usable offline / without an API key.
+ * Credentials: onboarding settings (~/.openpages) then env.
  */
 
 export type CompressMode = "compiler" | "precision";
@@ -48,8 +54,11 @@ export async function compressContext(
     return emptyResult(mode);
   }
 
-  if (!options.forceLocal && SUPERCOMPRESS.apiKey) {
-    const apiResult = await compressViaApi(trimmed, query, mode);
+  const apiKey = resolveSuperCompressKey();
+  const forceLocal = options.forceLocal || resolveForceLocalCompress();
+
+  if (!forceLocal && apiKey) {
+    const apiResult = await compressViaApi(trimmed, query, mode, apiKey);
     if (apiResult) return apiResult;
   }
 
@@ -59,9 +68,13 @@ export async function compressContext(
 async function compressViaApi(
   context: string,
   query: string,
-  mode: CompressMode
+  mode: CompressMode,
+  apiKey: string
 ): Promise<CompressResult | null> {
-  const urls = [SUPERCOMPRESS.apiUrl, SUPERCOMPRESS.fallbackApiUrl];
+  const primary = resolveSuperCompressUrl();
+  const urls = Array.from(
+    new Set([primary, SUPERCOMPRESS.apiUrl, SUPERCOMPRESS.fallbackApiUrl])
+  );
 
   for (const url of urls) {
     try {
@@ -69,8 +82,8 @@ async function compressViaApi(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": SUPERCOMPRESS.apiKey,
-          Authorization: `Bearer ${SUPERCOMPRESS.apiKey}`,
+          "X-API-Key": apiKey,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({ context, query, mode }),
       });

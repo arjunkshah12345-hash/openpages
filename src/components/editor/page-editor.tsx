@@ -259,12 +259,12 @@ export function PageEditor({
           titleRef.current = e.target.value;
           if (editor) scheduleSave(editor);
         }}
-        className="w-full bg-transparent text-4xl font-semibold tracking-tight text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none mb-6 font-[family-name:var(--font-display)]"
+        className="op-display mb-5 w-full bg-transparent text-[clamp(1.85rem,3.5vw,2.5rem)] text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none"
         placeholder="Untitled"
       />
 
       {editor && (
-        <div className="sticky top-0 z-10 -mx-2 mb-4 flex flex-wrap items-center gap-0.5 rounded-lg border border-[var(--border)] bg-[var(--paper)]/95 px-1.5 py-1 backdrop-blur">
+        <div className="sticky top-0 z-10 -mx-1 mb-5 flex flex-wrap items-center gap-0.5 rounded-[10px] border border-[var(--border)] bg-[var(--paper)]/95 px-1.5 py-1 backdrop-blur-xl">
           <ToolbarBtn
             active={editor.isActive("heading", { level: 1 })}
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}

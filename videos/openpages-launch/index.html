@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 100%; height: 100%; overflow: hidden; background: #f7f7f8;
+      }
+      #root {
+        position: relative; width: 100%; height: 100%;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #0d0d0d; background: #f7f7f8;
+      }
+      .scene {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
+      }
+      .inner { will-change: transform, opacity; }
+      .grid-bg {
+        position: absolute; inset: 0; pointer-events: none; opacity: 0.35;
+        background-image:
+          linear-gradient(rgba(13,13,13,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(13,13,13,0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+      }
+      .glow {
+        position: absolute; width: 720px; height: 720px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(16,163,127,0.16) 0%, transparent 68%);
+        pointer-events: none; will-change: transform, opacity;
+      }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 10px 18px; border-radius: 999px; background: #ececec;
+        color: #5a5a6a; font-size: 18px; font-weight: 550; letter-spacing: -0.01em;
+        will-change: transform, opacity;
+      }
+      .dot {
+        width: 9px; height: 9px; border-radius: 50%; background: #10a37f;
+        will-change: transform;
+      }
+      .wordmark {
+        margin-top: 22px; font-size: 132px; font-weight: 700;
+        letter-spacing: -0.05em; line-height: 0.95; will-change: transform, opacity;
+      }
+      .line {
+        overflow: hidden; display: block;
+      }
+      .line > span {
+        display: inline-block; will-change: transform, opacity;
+      }
+      .display {
+        font-size: 88px; font-weight: 650; letter-spacing: -0.045em;
+        line-height: 1.02; text-align: center; max-width: 1500px;
+      }
+      .sub {
+        margin-top: 26px; font-size: 26px; color: #5a5a6a;
+        letter-spacing: -0.02em; text-align: center; will-change: transform, opacity;
+      }
+      .chip-row {
+        display: flex; gap: 10px; justify-content: center; margin-top: 28px;
+      }
+      .chip {
+        padding: 10px 16px; border-radius: 999px; background: #fff;
+        border: 1px solid #e5e5e5; font-size: 15px; font-weight: 550; color: #5a5a6a;
+        will-change: transform, opacity;
+      }
+
+      .stage {
+        width: 1520px; height: 840px; border-radius: 22px;
+        border: 1px solid #e5e5e5; background: #fff;
+        display: grid; grid-template-columns: 268px 1fr 308px;
+        overflow: hidden;
+        box-shadow: 0 50px 120px -56px rgba(0,0,0,0.35);
+        will-change: transform, opacity;
+      }
+      .rail { background: #f4f4f4; border-right: 1px solid #e5e5e5; padding: 22px 14px; }
+      .rail-right { border-right: none; border-left: 1px solid #e5e5e5; }
+      .space-chip { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 6px 8px; }
+      .avatar {
+        width: 34px; height: 34px; border-radius: 10px; background: #0d0d0d; color: #fff;
+        display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+      }
+      .space-name { font-size: 15px; font-weight: 650; }
+      .space-meta { font-size: 12px; color: #5a5a6a; }
+      .nav-item {
+        padding: 11px 12px; border-radius: 11px; font-size: 14px; color: #5a5a6a;
+        margin-bottom: 3px; will-change: transform, opacity;
+      }
+      .nav-item.active {
+        background: #fff; color: #0d0d0d; font-weight: 650;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      }
+      .doc { display: flex; flex-direction: column; min-width: 0; }
+      .doc-bar { padding: 15px 24px; border-bottom: 1px solid #e5e5e5; font-size: 14px; font-weight: 600; }
+      .doc-body { flex: 1; padding: 28px 34px; position: relative; }
+      .doc-title { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; will-change: transform, opacity; }
+      .doc-p { margin-top: 12px; font-size: 16px; color: #5a5a6a; line-height: 1.5; max-width: 540px; will-change: transform, opacity; }
+      .bubble-user {
+        margin-left: auto; margin-top: 34px; max-width: 78%;
+        background: #ececec; border-radius: 24px; padding: 14px 18px; font-size: 15px;
+        will-change: transform, opacity;
+      }
+      .bubble-ai { display: flex; gap: 12px; margin-top: 16px; max-width: 92%; will-change: transform, opacity; }
+      .ai-orb {
+        width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+        background: #0a7a5c; color: #fff; font-size: 11px; font-weight: 700;
+        display: flex; align-items: center; justify-content: center; margin-top: 2px;
+        will-change: transform;
+      }
+      .ai-text { font-size: 15px; line-height: 1.45; color: #2f2f2f; }
+      .ai-meta { margin-top: 10px; font-size: 12px; color: #5a5a6a; font-weight: 550; }
+      .ctx-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a6a; }
+      .ctx-row { display: flex; justify-content: space-between; margin-top: 14px; font-size: 14px; color: #5a5a6a; will-change: transform, opacity; }
+      .ctx-row strong { color: #0d0d0d; font-weight: 650; }
+      .sc-card {
+        margin-top: 20px; padding: 14px; border-radius: 14px;
+        background: #e8f0ff; border: 1px solid rgba(5,102,255,0.2);
+        will-change: transform, opacity;
+      }
+      .sc-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #0450cc; }
+      .bar { margin-top: 12px; height: 7px; border-radius: 99px; background: #fff; overflow: hidden; }
+      .bar > i {
+        display: block; height: 100%; width: 100%; background: #0566ff; border-radius: 99px;
+        transform-origin: left center; will-change: transform;
+      }
+
+      .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; width: 1180px; }
+      .stat {
+        background: #fff; border: 1px solid #e5e5e5; border-radius: 28px; padding: 52px;
+        will-change: transform, opacity;
+      }
+      .stat-label { font-size: 17px; font-weight: 600; color: #5a5a6a; }
+      .stat-label.sc { color: #0450cc; }
+      .stat-num {
+        margin-top: 14px; font-size: 92px; font-weight: 700;
+        letter-spacing: -0.045em; font-variant-numeric: tabular-nums;
+        will-change: transform;
+      }
+      .stat-num.sc { color: #0566ff; }
+      .stat-sub { margin-top: 10px; font-size: 20px; color: #5a5a6a; }
+      .fill {
+        margin-top: 28px; height: 10px; border-radius: 99px; background: #ececec; overflow: hidden;
+      }
+      .fill > i {
+        display: block; height: 100%; width: 100%; border-radius: 99px;
+        transform-origin: left center; will-change: transform;
+      }
+      .fill-muted > i { background: #b0b0b8; }
+      .fill-sc > i { background: #0566ff; }
+
+      .pipeline { display: flex; align-items: center; gap: 16px; }
+      .pill {
+        padding: 18px 30px; border-radius: 999px; background: #ececec;
+        font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+        will-change: transform, opacity;
+      }
+      .pill.hot { background: #e8f0ff; color: #0450cc; }
+      .arrow { color: #5a5a6a; font-size: 26px; will-change: opacity; }
+
+      .end-wrap { text-align: center; }
+      .cta-row { display: flex; gap: 16px; margin-top: 40px; justify-content: center; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 18px 30px; border-radius: 999px; font-size: 20px; font-weight: 650;
+        will-change: transform, opacity;
+      }
+      .btn-dark { background: #0d0d0d; color: #fff; }
+      .btn-outline { background: #fff; color: #0d0d0d; border: 1px solid #e5e5e5; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="16"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- AUDIO -->
+      <audio
+        id="bgm"
+        src="assets/bgm/track.wav"
+        data-start="0"
+        data-duration="16"
+        data-volume="0.82"
+      ></audio>
+      <audio id="sfx-impact" src=".media/audio/sfx/sfx_002.mp3" data-start="0.05" data-duration="2.1" data-volume="0.7"></audio>
+      <audio id="sfx-whoosh1" src=".media/audio/sfx/sfx_001.mp3" data-start="0.12" data-duration="0.6" data-volume="0.55"></audio>
+      <audio id="sfx-whoosh2" src=".media/audio/sfx/sfx_001.mp3" data-start="2.05" data-duration="0.6" data-volume="0.5"></audio>
+      <audio id="sfx-whoosh3" src=".media/audio/sfx/sfx_001.mp3" data-start="4.35" data-duration="0.6" data-volume="0.55"></audio>
+      <audio id="sfx-click1" src=".media/audio/sfx/sfx_005.mp3" data-start="4.85" data-duration="0.4" data-volume="0.45"></audio>
+      <audio id="sfx-click2" src=".media/audio/sfx/sfx_005.mp3" data-start="5.15" data-duration="0.4" data-volume="0.4"></audio>
+      <audio id="sfx-sparkle" src=".media/audio/sfx/sfx_004.mp3" data-start="5.55" data-duration="1.8" data-volume="0.55"></audio>
+      <audio id="sfx-ping" src=".media/audio/sfx/sfx_003.mp3" data-start="8.15" data-duration="1.3" data-volume="0.65"></audio>
+      <audio id="sfx-whoosh4" src=".media/audio/sfx/sfx_001.mp3" data-start="10.85" data-duration="0.6" data-volume="0.5"></audio>
+      <audio id="sfx-click3" src=".media/audio/sfx/sfx_005.mp3" data-start="11.05" data-duration="0.4" data-volume="0.4"></audio>
+      <audio id="sfx-click4" src=".media/audio/sfx/sfx_005.mp3" data-start="11.25" data-duration="0.4" data-volume="0.4"></audio>
+      <audio id="sfx-click5" src=".media/audio/sfx/sfx_005.mp3" data-start="11.45" data-duration="0.4" data-volume="0.45"></audio>
+      <audio id="sfx-impact2" src=".media/audio/sfx/sfx_002.mp3" data-start="13.0" data-duration="2.1" data-volume="0.65"></audio>
+      <audio id="sfx-chime" src=".media/audio/sfx/sfx_006.mp3" data-start="13.15" data-duration="2.5" data-volume="0.55"></audio>
+
+      <!-- SCENE 1: brand slam 0–2.3 -->
+      <div class="clip scene" id="scene-1" data-start="0" data-duration="2.35" data-track-index="1">
+        <div class="grid-bg" id="g1"></div>
+        <div class="glow" id="glow1" style="left: 28%; top: 18%;"></div>
+        <div class="inner" id="s1" style="text-align:center; position:relative;">
+          <div class="eyebrow" id="s1-eye"><span class="dot" id="s1-dot"></span> Open-source OpenAI Pages</div>
+          <div class="wordmark" id="s1-wm">OpenPages</div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: value line 2.1–4.6 -->
+      <div class="clip scene" id="scene-2" data-start="2.1" data-duration="2.55" data-track-index="2">
+        <div class="grid-bg" id="g2"></div>
+        <div class="inner" id="s2">
+          <div class="display">
+            <div class="line"><span id="s2-a">Your workspace for</span></div>
+            <div class="line"><span id="s2-b">humans and agents</span></div>
+          </div>
+          <div class="sub" id="s2-sub">Spaces · living pages · chat that knows the room</div>
+          <div class="chip-row" id="s2-chips">
+            <div class="chip" id="c1">Spaces</div>
+            <div class="chip" id="c2">Pages</div>
+            <div class="chip" id="c3">Agents</div>
+            <div class="chip" id="c4">MCP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3: product UI 4.4–8.3 -->
+      <div class="clip scene" id="scene-3" data-start="4.35" data-duration="4.0" data-track-index="3">
+        <div class="glow" id="glow3" style="right: -8%; bottom: -20%; opacity: 0.5;"></div>
+        <div class="inner" id="s3">
+          <div class="stage" id="stage">
+            <aside class="rail" id="rail-l">
+              <div class="space-chip">
+                <div class="avatar">P</div>
+                <div>
+                  <div class="space-name">Product Launch</div>
+                  <div class="space-meta">Space</div>
+                </div>
+              </div>
+              <div class="nav-item" id="n1">Product Roadmap</div>
+              <div class="nav-item active" id="n2">Launch Notes</div>
+              <div class="nav-item" id="n3">Customer Feedback</div>
+              <div class="nav-item" id="n4">About SuperCompress</div>
+            </aside>
+            <div class="doc" id="doc">
+              <div class="doc-bar">Launch Notes</div>
+              <div class="doc-body">
+                <div class="doc-title" id="doc-t">Launch Notes</div>
+                <div class="doc-p" id="doc-p">Engineering: MCP auth. Marketing: SuperCompress motion. Launch day: support rotation.</div>
+                <div class="bubble-user" id="bub-u">What are we missing for launch?</div>
+                <div class="bubble-ai" id="bub-a">
+                  <div class="ai-orb" id="ai-orb">AI</div>
+                  <div>
+                    <div class="ai-text">From Launch Notes and Product Roadmap: MCP auth tokens, SuperCompress landing motion, launch-day support rotation.</div>
+                    <div class="ai-meta">38,492 → 11,203 tokens · SuperCompress</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <aside class="rail rail-right" id="rail-r">
+              <div class="ctx-label">Context</div>
+              <div class="ctx-row" id="cr1"><span>Sources</span><strong>4</strong></div>
+              <div class="ctx-row" id="cr2"><span>Retrieved</span><strong>38.5k</strong></div>
+              <div class="ctx-row" id="cr3"><span>Kept</span><strong style="color:#0450cc">11.2k</strong></div>
+              <div class="sc-card" id="sc-card">
+                <div class="sc-top"><span>SuperCompress</span><span>70.9%</span></div>
+                <div class="bar"><i id="sc-bar"></i></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: stats 8.1–11.1 -->
+      <div class="clip scene" id="scene-4" data-start="8.1" data-duration="3.05" data-track-index="4" data-layout-allow-overlap>
+        <div class="grid-bg"></div>
+        <div class="inner" id="s4">
+          <div class="stat-grid">
+            <div class="stat" id="st1">
+              <div class="stat-label">Without SuperCompress</div>
+              <div class="stat-num" id="n-big">0</div>
+              <div class="stat-sub">tokens into the model</div>
+              <div class="fill fill-muted"><i id="fill1"></i></div>
+            </div>
+            <div class="stat" id="st2">
+              <div class="stat-label sc">With SuperCompress</div>
+              <div class="stat-num sc" id="n-small">0</div>
+              <div class="stat-sub">same evidence · 74.7% fewer</div>
+              <div class="fill fill-sc"><i id="fill2"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 5: pipeline 10.9–13.2 -->
+      <div class="clip scene" id="scene-5" data-start="10.9" data-duration="2.35" data-track-index="5">
+        <div class="inner" id="s5">
+          <div class="pipeline">
+            <div class="pill" id="p1">Workspace</div>
+            <div class="arrow" id="a1">→</div>
+            <div class="pill" id="p2">Retrieval</div>
+            <div class="arrow" id="a2">→</div>
+            <div class="pill hot" id="p3">SuperCompress</div>
+            <div class="arrow" id="a3">→</div>
+            <div class="pill" id="p4">Model</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 6: CTA 13.0–16 -->
+      <div class="clip scene" id="scene-6" data-start="13.0" data-duration="3.0" data-track-index="6">
+        <div class="glow" id="glow6" style="left: 50%; top: 40%; margin-left: -360px; margin-top: -360px;"></div>
+        <div class="inner" id="s6">
+          <div class="end-wrap">
+            <div class="display" style="font-size:64px; line-height:1.12">
+              <div class="line" style="min-height:1.2em" data-layout-allow-overflow><span id="e1">OpenAI Space energy.</span></div>
+              <div class="line" style="min-height:1.2em" data-layout-allow-overflow><span id="e2">Open source. Your machine.</span></div>
+            </div>
+            <div class="cta-row">
+              <div class="btn btn-dark" id="btn1">Start a Space →</div>
+              <div class="btn btn-outline" id="btn2">Star on GitHub</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      function countUp(el, to, duration, startAt) {
+        const proxy = { v: 0 };
+        tl.fromTo(
+          proxy,
+          { v: 0 },
+          {
+            v: to,
+            duration,
+            ease: "power2.out",
+            immediateRender: false,
+            onUpdate: () => {
+              el.textContent = Math.round(proxy.v).toLocaleString();
+            },
+          },
+          startAt
+        );
+      }
+
+      // —— Scene 1 brand slam ——
+      tl.fromTo("#glow1", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }, 0);
+      tl.fromTo("#s1-eye", { opacity: 0, y: 18, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, 0.08);
+      tl.fromTo("#s1-dot", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 0.18);
+      tl.fromTo(
+        "#s1-wm",
+        { opacity: 0, y: 56, scale: 0.88 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power4.out" },
+        0.22
+      );
+      tl.to("#s1", { opacity: 0, y: -28, scale: 1.04, duration: 0.38, ease: "power2.in" }, 1.95);
+
+      // —— Scene 2 kinetic lines ——
+      tl.fromTo("#s2-a", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 2.15);
+      tl.fromTo("#s2-b", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 2.32);
+      tl.fromTo("#s2-sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 2.7);
+      tl.fromTo(
+        ["#c1", "#c2", "#c3", "#c4"],
+        { opacity: 0, y: 18, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.07, ease: "power3.out" },
+        2.95
+      );
+      tl.to("#s2", { opacity: 0, y: -22, duration: 0.32, ease: "power2.in" }, 4.3);
+
+      // —— Scene 3 product stage ——
+      tl.fromTo(
+        "#stage",
+        { opacity: 0, y: 64, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: "power4.out" },
+        4.4
+      );
+      tl.fromTo("#rail-l", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 4.55);
+      tl.fromTo("#rail-r", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 4.6);
+      tl.fromTo(
+        ["#n1", "#n2", "#n3", "#n4"],
+        { opacity: 0, x: -12 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: "power2.out" },
+        4.75
+      );
+      tl.fromTo("#doc-t", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.9);
+      tl.fromTo("#doc-p", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 5.05);
+      tl.fromTo("#bub-u", { opacity: 0, y: 20, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, 5.25);
+      tl.fromTo("#ai-orb", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.2)" }, 5.55);
+      tl.fromTo("#bub-a", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 5.55);
+      tl.fromTo(
+        ["#cr1", "#cr2", "#cr3"],
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.3, stagger: 0.07, ease: "power2.out" },
+        5.7
+      );
+      tl.fromTo("#sc-card", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 5.95);
+      tl.fromTo("#sc-bar", { scaleX: 0 }, { scaleX: 0.709, duration: 0.85, ease: "power2.out" }, 6.05);
+      tl.to("#s3", { opacity: 0, y: -30, scale: 0.98, duration: 0.35, ease: "power2.in" }, 8.0);
+
+      // —— Scene 4 stats ——
+      tl.fromTo(
+        ["#st1", "#st2"],
+        { opacity: 0, y: 40, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: "power3.out" },
+        8.2
+      );
+      countUp(document.getElementById("n-big"), 84291, 1.15, 8.35);
+      countUp(document.getElementById("n-small"), 21336, 1.15, 8.5);
+      tl.fromTo("#fill1", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power2.out" }, 8.4);
+      tl.fromTo("#fill2", { scaleX: 0 }, { scaleX: 0.253, duration: 0.9, ease: "power2.out" }, 8.55);
+      tl.to("#s4", { opacity: 0, y: -20, duration: 0.3, ease: "power2.in" }, 10.85);
+
+      // —— Scene 5 pipeline ——
+      tl.fromTo(
+        ["#p1", "#a1", "#p2", "#a2", "#p3", "#a3", "#p4"],
+        { opacity: 0, y: 24, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.08, ease: "power3.out" },
+        10.95
+      );
+      tl.fromTo("#p3", { scale: 1 }, { scale: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.inOut" }, 11.7);
+      tl.to("#s5", { opacity: 0, duration: 0.28, ease: "power2.in" }, 12.95);
+
+      // —— Scene 6 CTA ——
+      tl.fromTo("#glow6", { opacity: 0, scale: 0.6 }, { opacity: 0.9, scale: 1, duration: 0.7, ease: "power2.out" }, 13.05);
+      tl.fromTo("#e1", { opacity: 0, y: 48 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 13.1);
+      tl.fromTo("#e2", { opacity: 0, y: 48 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 13.28);
+      tl.fromTo(
+        ["#btn1", "#btn2"],
+        { opacity: 0, y: 20, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.08, ease: "power3.out" },
+        13.7
+      );
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

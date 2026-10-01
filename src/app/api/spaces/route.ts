@@ -3,6 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { getDb, schema } from "@/lib/db";
 import { LOCAL_USER_ID } from "@/lib/pages";
+import { loadSettings } from "@/lib/settings/store";
 
 export async function GET() {
   try {
@@ -62,13 +63,17 @@ export async function POST(req: Request) {
       });
     }
 
+    const machine = loadSettings();
     await db.insert(schema.spaces).values({
       id,
       name: body.name || "Untitled Space",
       icon: body.icon || "◇",
       description: body.description || "",
       ownerId: LOCAL_USER_ID,
-      settings: { defaultModel: body.model || "openai/gpt-4o-mini" },
+      settings: {
+        defaultModel:
+          body.model || machine.defaultModel || "chatgpt/gpt-5.4-mini",
+      },
       createdAt: now,
       updatedAt: now,
     });

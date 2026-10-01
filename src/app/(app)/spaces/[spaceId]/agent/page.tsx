@@ -1,4 +1,4 @@
-import { AgentModeTabs } from "@/components/agent/agent-mode-tabs";
+import { AgentPanel } from "@/components/agent/agent-panel";
 
 export default async function AgentPage({
   params,
@@ -11,5 +11,5 @@ export default async function AgentPage({
   const sp = await searchParams;
   const initialMode = sp.mode === "agent" ? "agent" : "chat";
 
-  return <AgentModeTabs spaceId={spaceId} initialMode={initialMode} />;
+  return <AgentPanel spaceId={spaceId} initialMode={initialMode} />;
 }

@@ -48,7 +48,7 @@ ${heuristicAnswer(message)}
 ---
 Context used: ${formatTokens(meta.originalTokens)} → ${formatTokens(meta.compressedTokens)} tokens (${formatPct(meta.tokensSavedPct)} compressed with SuperCompress${meta.provider ? ` · ${meta.provider}` : ""})
 
-Add a model API key in \`.env\` for live completions. Retrieval + SuperCompress already ran.`;
+Connect a model in onboarding (ChatGPT account, API key, or Ollama) for live completions. Retrieval + SuperCompress already ran.`;
 }
 
 function heuristicAnswer(message: string): string {

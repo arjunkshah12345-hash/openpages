@@ -1,0 +1,10 @@
+OpenPages. Your workspace, built for humans and agents.
+Spaces: pages, files, search, settings, agent activity.
+Pages: block editing, autosave, checklists, tables.
+Workspace agent: cited answers over the Space.
+SuperCompress is the core context layer.
+Workspace → Retrieval → SuperCompress → Model.
+The Context inspector exposes sources and compressed context.
+Model agnostic. OpenAI, Anthropic, Gemini, OpenRouter and Ollama.
+MCP: search, read, write, and pull compressed context.
+Self-host. Open source. MIT licensed.

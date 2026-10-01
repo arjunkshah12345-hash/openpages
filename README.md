@@ -1,6 +1,6 @@
 <p align="center">
   <strong>OpenPages</strong><br />
-  <em>Your workspace, built for humans and agents.</em>
+  <em>Make room for your next idea.</em>
 </p>
 
 <p align="center">
@@ -106,11 +106,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) → **Start a Space** runs the local onboarding wizard:
 
-1. **SuperCompress** — paste your key from [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard) (or use the offline compressor)
-2. **Model** — pick a provider:
-   - **ChatGPT account** — import `~/.codex/auth.json` or Sign in with ChatGPT (device code). No `sk-` API key required for Plus/Pro
-   - **API keys** — OpenAI, Anthropic, Gemini, OpenRouter, Groq, Mistral, DeepSeek, Together, Fireworks, xAI, Azure, or any OpenAI-compatible endpoint
-   - **Ollama** — local models, no key
+1. **SuperCompress** — paste your key from [supercompress.dev/dashboard](https://www.supercompress.dev/dashboard) (required for the real compiler; offline stand-in is buried behind an intentional confirm)
+2. **Bring your own inference** — pick how you run models:
+   - **ChatGPT account** — Login with ChatGPT (device code) or import `~/.codex/auth.json`. No `sk-` API key for Plus/Pro
+   - **OpenAI API** — paste a platform `sk-…` key and choose GPT-5.4 / o-series models
+   - **Other providers** — Anthropic, Gemini, OpenRouter, Groq, Ollama, and more
 3. Credentials are saved to `~/.openpages/settings.json` (mode `0600`)
 
 A **Product Launch** demo Space is seeded so first-run chat already shows compression in the inspector.

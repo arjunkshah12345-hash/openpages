@@ -1,0 +1,169 @@
+<template>
+  <style>
+    @font-face { font-family: 'Geist'; src: url('assets/fonts/geist.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: block; }
+    #root, #scene-03 { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: 'Geist'; color: #f7f7f8; -webkit-font-smoothing: antialiased; }
+    .s03-background { position: absolute; inset: 0; background: #0d0d0d; }
+    .s03-headline { position: absolute; left: 110px; top: 150px; z-index: 10; font-size: 144px; font-weight: 500; letter-spacing: -0.055em; line-height: 1.045; }
+    .s03-headline-line { display: block; white-space: nowrap; }
+    .s03-headline-line + .s03-headline-line { margin-top: 5px; color: #a8c8ff; }
+    .s03-stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 72% 43%; z-index: 5; }
+    .s03-document-camera { position: absolute; left: 1100px; top: 230px; width: 560px; height: 420px; transform-style: preserve-3d; transform-origin: 0 0; }
+    .s03-sheet { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 50%; }
+    .s03-sheet-shell { position: absolute; inset: 0; background: #f7f7f8; border: 1.5px solid #dedee0; border-radius: 5px; color: #0d0d0d; overflow: hidden; transform-origin: 100% 50%; }
+    .s03-sheet-category { position: absolute; left: 36px; top: 31px; font-size: 25px; font-weight: 400; line-height: 1.15; color: #626268; }
+    .s03-sheet-title { position: absolute; left: 36px; top: 84px; font-size: 43px; line-height: 1.05; font-weight: 500; letter-spacing: -0.035em; }
+    .s03-sheet-rule { position: absolute; left: 36px; right: 36px; top: 163px; height: 1.5px; background: #dedee0; }
+    .s03-sheet-note { position: absolute; left: 36px; top: 300px; font-size: 29px; letter-spacing: -0.015em; line-height: 1.25; }
+    .s03-sheet-footer { position: absolute; left: 36px; top: 357px; font-size: 25px; line-height: 1.2; color: #626268; }
+    .s03-evidence { position: absolute; left: 36px; top: 206px; width: 488px; height: 60px; display: flex; align-items: center; padding: 0 17px; box-sizing: border-box; color: #0d0d0d; background: #a8c8ff; font-size: 30px; font-weight: 500; letter-spacing: -0.025em; white-space: nowrap; overflow: hidden; transform-origin: 0 50%; }
+    .s03-gate { position: absolute; left: 945px; top: 198px; height: 496px; width: 14px; z-index: 8; transform-origin: 50% 50%; }
+    .s03-gate-front { position: absolute; inset: 0 5px 0 0; background: #0566ff; }
+    .s03-gate-edge { position: absolute; top: 0; right: 0; width: 2px; height: 100%; background: #a8c8ff; }
+    .s03-gate-cap { position: absolute; left: -12px; width: 38px; height: 2px; background: #a8c8ff; }
+    .s03-gate-cap-top { top: 0; }
+    .s03-gate-cap-bottom { bottom: 0; }
+    .s03-machine-label { position: absolute; left: 985px; top: 730px; z-index: 9; font-size: 34px; font-weight: 500; line-height: 1; letter-spacing: -0.04em; transform-origin: 0 0; }
+    .s03-pipeline { position: absolute; left: 985px; top: 788px; z-index: 9; font-size: 26px; font-weight: 400; line-height: 1.3; letter-spacing: -0.02em; color: #b5b5bc; white-space: nowrap; }
+    .s03-pipeline-compress { color: #a8c8ff; }
+    .s03-pipeline-arrow { padding: 0 10px; color: #626268; }
+    .s03-answer { position: absolute; left: 730px; top: 220px; width: 1080px; height: 490px; z-index: 4; }
+    .s03-answer-surface { position: absolute; inset: 0; border: 1.5px solid #dedee0; border-radius: 24px; box-sizing: border-box; background: #ffffff; box-shadow: 0 20px 60px rgba(0,0,0,0.12); transform-origin: 55% 49%; }
+    .s03-answer-heading { position: absolute; left: 76px; top: 62px; color: #0d0d0d; font-size: 54px; font-weight: 500; line-height: 1.06; letter-spacing: -0.045em; white-space: nowrap; }
+    .s03-answer-rule { position: absolute; left: 76px; right: 76px; top: 155px; height: 1.5px; background: #dedee0; transform-origin: 0 50%; }
+    .s03-answer-line { position: absolute; left: 76px; color: #0d0d0d; font-size: 34px; font-weight: 400; line-height: 1.3; letter-spacing: -0.018em; white-space: nowrap; }
+    .s03-answer-line-first { top: 188px; }
+    .s03-answer-line-second { top: 245px; }
+    .s03-citations { position: absolute; left: 76px; top: 361px; display: flex; gap: 14px; }
+    .s03-citation { display: flex; gap: 20px; align-items: center; box-sizing: border-box; height: 61px; padding: 0 21px; border: 1.5px solid #dedee0; border-radius: 12px; color: #0566ff; background: #f7f7f8; font-size: 27px; font-weight: 400; line-height: 1; letter-spacing: -0.018em; white-space: nowrap; }
+    .s03-citation-arrow { color: #0566ff; }
+    .s03-resolution { position: absolute; left: 730px; top: 757px; z-index: 9; font-size: 46px; font-weight: 400; letter-spacing: -0.035em; line-height: 1.15; }
+    .s03-resolution-line { display: block; }
+    .s03-resolution-line + .s03-resolution-line { margin-top: 4px; color: #a8c8ff; }
+  </style>
+  <div data-hf-id="hf-7u1b" id="scene-03" data-composition-id="03-compression" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-tdm0" id="s03-background" class="clip s03-background" data-start="0" data-duration="8" data-track-index="0"></div>
+    <div data-hf-id="hf-8d0t" class="s03-headline">
+      <span data-hf-id="hf-yqfp" class="s03-headline-line">More context.</span>
+      <span data-hf-id="hf-qbfu" class="s03-headline-line">Less noise.</span>
+    </div>
+    <div data-hf-id="hf-lxft" class="s03-stage">
+      <div data-hf-id="hf-v2o2" class="s03-document-camera">
+        <div data-hf-id="hf-gqtq" class="s03-sheet">
+          <div data-hf-id="hf-0n4j" class="s03-sheet-shell"><div data-hf-id="hf-12cq" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-oydo" class="s03-sheet-title">Product narrative</div><div data-hf-id="hf-qxb5" class="s03-sheet-rule"></div><div data-hf-id="hf-tfb5" class="s03-sheet-note">A shared place to think.</div><div data-hf-id="hf-hyiw" class="s03-sheet-footer">Working direction</div></div>
+          <div data-hf-id="hf-jdy6" class="s03-evidence">One shared workspace</div>
+        </div>
+        <div data-hf-id="hf-z1zm" class="s03-sheet">
+          <div data-hf-id="hf-bb03" class="s03-sheet-shell"><div data-hf-id="hf-o2r2" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-ghfv" class="s03-sheet-title">Research notes</div><div data-hf-id="hf-2z3p" class="s03-sheet-rule"></div><div data-hf-id="hf-y89c" class="s03-sheet-note">Keep the evidence close.</div><div data-hf-id="hf-dhza" class="s03-sheet-footer">Product research</div></div>
+          <div data-hf-id="hf-tc00" class="s03-evidence">Context from your Space</div>
+        </div>
+        <div data-hf-id="hf-zgan" class="s03-sheet">
+          <div data-hf-id="hf-awp2" class="s03-sheet-shell"><div data-hf-id="hf-oh23" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-e1tp" class="s03-sheet-title">Messaging</div><div data-hf-id="hf-460s" class="s03-sheet-rule"></div><div data-hf-id="hf-ueww" class="s03-sheet-note">Make the story clear.</div><div data-hf-id="hf-kfe1" class="s03-sheet-footer">Narrative exploration</div></div>
+          <div data-hf-id="hf-zl79" class="s03-evidence">Keep what matters</div>
+        </div>
+        <div data-hf-id="hf-zulo" class="s03-sheet">
+          <div data-hf-id="hf-aie1" class="s03-sheet-shell"><div data-hf-id="hf-ovd4" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-ils8" class="s03-sheet-title">Positioning</div><div data-hf-id="hf-3rpr" class="s03-sheet-rule"></div><div data-hf-id="hf-c6p6" class="s03-sheet-note">The product difference.</div><div data-hf-id="hf-ooiy" class="s03-sheet-footer">Strategy notes</div></div>
+          <div data-hf-id="hf-6nfc" class="s03-evidence">Focused context</div>
+        </div>
+        <div data-hf-id="hf-08wp" class="s03-sheet">
+          <div data-hf-id="hf-a430" class="s03-sheet-shell"><div data-hf-id="hf-m37x" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-alkb" class="s03-sheet-title">Research notes</div><div data-hf-id="hf-4ymu" class="s03-sheet-rule"></div><div data-hf-id="hf-0oxv" class="s03-sheet-note">Useful source material.</div><div data-hf-id="hf-ykvo" class="s03-sheet-footer">Workspace research</div></div>
+          <div data-hf-id="hf-zxtq" class="s03-evidence">Sources stay connected</div>
+        </div>
+        <div data-hf-id="hf-0n7q" class="s03-sheet">
+          <div data-hf-id="hf-9prz" class="s03-sheet-shell"><div data-hf-id="hf-mhiy" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-0po4" class="s03-sheet-title">Launch brief</div><div data-hf-id="hf-4kbt" class="s03-sheet-rule"></div><div data-hf-id="hf-bapy" class="s03-sheet-note">An intentional first impression.</div><div data-hf-id="hf-e8hg" class="s03-sheet-footer">Launch direction</div></div>
+          <div data-hf-id="hf-71ba" class="s03-evidence">Lead with the workspace</div>
+        </div>
+        <div data-hf-id="hf-11ir" class="s03-sheet">
+          <div data-hf-id="hf-9bgy" class="s03-sheet-shell"><div data-hf-id="hf-mvtz" class="s03-sheet-category">Workspace / Source</div><div data-hf-id="hf-dong" class="s03-sheet-title">Launch brief</div><div data-hf-id="hf-5r8w" class="s03-sheet-rule"></div><div data-hf-id="hf-05gy" class="s03-sheet-note">Focus is the differentiator.</div><div data-hf-id="hf-tzll" class="s03-sheet-footer">OpenPages / Working notes</div></div>
+          <div data-hf-id="hf-a0er" class="s03-evidence">A shared workspace</div>
+        </div>
+      </div>
+    </div>
+    <div data-hf-id="hf-mfso" class="s03-gate"><div data-hf-id="hf-1q36" class="s03-gate-front"></div><div data-hf-id="hf-ptri" class="s03-gate-edge"></div><div data-hf-id="hf-5j3c" class="s03-gate-cap s03-gate-cap-top"></div><div data-hf-id="hf-e98a" class="s03-gate-cap s03-gate-cap-bottom"></div></div>
+    <div data-hf-id="hf-6e2k" class="s03-machine-label">SuperCompress</div>
+    <div data-hf-id="hf-it8j" class="s03-pipeline"><span data-hf-id="hf-h0a5">Retrieve</span><span data-hf-id="hf-29i4" class="s03-pipeline-arrow">→</span><span data-hf-id="hf-ctrz" class="s03-pipeline-compress">Compress</span><span data-hf-id="hf-oec4" class="s03-pipeline-arrow">→</span><span data-hf-id="hf-lkur">Answer</span></div>
+    <div data-hf-id="hf-fpy3" class="s03-answer">
+      <div data-hf-id="hf-sfbx" class="s03-answer-surface"></div>
+      <div data-hf-id="hf-13ef" class="s03-answer-heading">Built from your Space.</div>
+      <div data-hf-id="hf-bo6m" class="s03-answer-rule"></div>
+      <div data-hf-id="hf-nh2c" class="s03-answer-line s03-answer-line-first">Lead with the shared workspace.</div>
+      <div data-hf-id="hf-18l4" class="s03-answer-line s03-answer-line-second">Make focused context the differentiator.</div>
+      <div data-hf-id="hf-s41l" class="s03-citations">
+        <div data-hf-id="hf-u68u" class="s03-citation"><span data-hf-id="hf-s41q">Launch brief</span><span data-hf-id="hf-zvzc" class="s03-citation-arrow">↗</span></div>
+        <div data-hf-id="hf-xczm" class="s03-citation"><span data-hf-id="hf-pid1">Research notes</span><span data-hf-id="hf-ng68" class="s03-citation-arrow">↗</span></div>
+      </div>
+    </div>
+    <div data-hf-id="hf-88q7" class="s03-resolution"><span data-hf-id="hf-vgrt" class="s03-resolution-line">The right context.</span><span data-hf-id="hf-etkj" class="s03-resolution-line">Ready for your model.</span></div>
+  </div>
+  <script>
+    (() => {
+      const scene = document.querySelector('[data-composition-id="03-compression"]');
+      const one = (selector) => scene.querySelector(selector);
+      const many = (selector) => Array.from(scene.querySelectorAll(selector));
+      const sheets = many('.s03-sheet');
+      const evidence = many('.s03-evidence');
+      // These text blocks are on physically stacked 3D sheets. Their axis-aligned
+      // projected boxes overlap even when opaque paper correctly occludes them.
+      // Scope the allowance to the sheet text only, leaving final answer auditable.
+      many('.s03-sheet-category,.s03-sheet-title,.s03-sheet-note,.s03-sheet-footer,.s03-evidence').forEach(node => {
+        node.setAttribute('data-layout-allow-overlap','');
+        node.setAttribute('data-layout-allow-occlusion','');
+      });
+      const tl = gsap.timeline({ paused: true });
+
+      // The entire source stack shares one camera. Evidence stays attached to
+      // its original sheet throughout retrieval, compression, and assembly.
+      tl.fromTo(one('.s03-document-camera'),
+        { rotationY: -20, rotationX: 11, rotationZ: -4, x: 0, y: 0, scale: 1 },
+        { rotationY: -13, rotationX: 8, rotationZ: -3, duration: 1.75, ease: 'power2.out' }, 0);
+      sheets.forEach((sheet, i) => {
+        const depth = 6 - i;
+        tl.fromTo(sheet,
+          { x: -depth * 20 + 55, y: -depth * 18 + 20, z: -depth * 63, rotationZ: -depth * 1.35, opacity: 0 },
+          { x: -depth * 20, y: -depth * 18, z: -depth * 63, rotationZ: -depth * 1.35, opacity: 1, duration: 0.83, ease: 'power3.out' }, i * 0.038);
+      });
+      tl.fromTo(many('.s03-headline-line')[0], { y: 42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.83, ease: 'power3.out' }, 0.04);
+      tl.fromTo(many('.s03-headline-line')[1], { y: 42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.88, ease: 'power3.out' }, 0.49);
+
+      // The first phrase makes room for the live compression diagram.
+      tl.to(many('.s03-headline-line'), { y: -40, opacity: 0, duration: 0.39, stagger: 0.06, ease: 'power2.in' }, 1.78);
+      tl.to(one('.s03-document-camera'), { x: -850, y: 30, scale: 0.76, rotationX: 0, rotationY: 0, rotationZ: 0, duration: 0.96, ease: 'power3.inOut' }, 1.76);
+      sheets.forEach((sheet, i) => {
+        tl.to(sheet, { x: 0, y: (i - 3) * 78, z: 0, rotationZ: 0, duration: 0.82, ease: 'power3.inOut' }, 1.88 + i * 0.02);
+      });
+      tl.fromTo(one('.s03-gate'), { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.53, ease: 'power3.out' }, 2.05);
+      tl.fromTo(one('.s03-machine-label'), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out' }, 2.20);
+      tl.fromTo(one('.s03-pipeline'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, 2.39);
+      tl.to(many('.s03-sheet-shell'), { scaleX: 0.025, opacity: 0, duration: 0.52, stagger: 0.037, ease: 'power3.in' }, 2.56);
+
+      // Neutral paper stops before the gate. Only selected source strips pass.
+      evidence.forEach((strip, i) => {
+        const departure = 2.91 + i * 0.085;
+        tl.to(strip, { x: 1100, duration: 1.15, ease: 'power2.inOut' }, departure);
+        tl.to(strip, { scaleX: 0.67, duration: 0.44, ease: 'power2.inOut' }, departure + 0.49);
+        tl.to(strip, { y: (3 - i) * 78 + 60, duration: 0.48, ease: 'power3.inOut' }, 4.04 + i * 0.04);
+        tl.to(strip, { opacity: 0, duration: 0.18, ease: 'power1.inOut' }, 4.53 + i * 0.02);
+      });
+
+      // A single answer sheet grows out of the aligned evidence, then citations
+      // attach as the last pieces of the answer rather than arriving up front.
+      tl.fromTo(one('.s03-answer-surface'),
+        { scaleX: 0.25, scaleY: 0.012, x: 120, opacity: 0 },
+        { scaleX: 1, scaleY: 1, x: 0, opacity: 1, duration: 0.73, ease: 'power3.inOut' }, 4.24);
+      tl.to(one('.s03-gate'), { scaleY: 0, opacity: 0, duration: 0.43, ease: 'power2.inOut' }, 4.36);
+      tl.to(one('.s03-machine-label'), { x: -875, y: -374, scale: 1.52, duration: 0.89, ease: 'power3.inOut' }, 4.31);
+      tl.to(one('.s03-pipeline'), { x: -875, y: -352, duration: 0.89, ease: 'power3.inOut' }, 4.31);
+      tl.fromTo(one('.s03-answer-heading'), { y: 23, opacity: 0 }, { y: 0, opacity: 1, duration: 0.52, ease: 'power3.out' }, 4.75);
+      tl.fromTo(one('.s03-answer-rule'), { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.60, ease: 'power3.out' }, 4.94);
+      tl.fromTo(one('.s03-answer-line-first'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.49, ease: 'power3.out' }, 5.01);
+      tl.fromTo(one('.s03-answer-line-second'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.49, ease: 'power3.out' }, 5.25);
+      tl.fromTo(many('.s03-citation')[0], { y: 16, scale: 0.97, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.46, ease: 'power3.out' }, 5.52);
+      tl.fromTo(many('.s03-citation')[1], { y: 16, scale: 0.97, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.46, ease: 'power3.out' }, 5.85);
+      tl.fromTo(many('.s03-resolution-line')[0], { y: 23, opacity: 0 }, { y: 0, opacity: 1, duration: 0.68, ease: 'power3.out' }, 6.12);
+      tl.fromTo(many('.s03-resolution-line')[1], { y: 23, opacity: 0 }, { y: 0, opacity: 1, duration: 0.71, ease: 'power3.out' }, 6.47);
+      tl.to({}, { duration: 0.82 }, 7.18);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['03-compression'] = tl;
+    })();
+  </script>
+</template>

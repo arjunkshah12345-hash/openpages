@@ -1,0 +1,10 @@
+{
+  "duration": 32,
+  "assertions": [
+    { "kind": "appearsBy", "selector": "#s01-big-one", "bySec": 0.7 },
+    { "kind": "appearsBy", "selector": "#s01-brand", "bySec": 5.8 },
+    { "kind": "appearsBy", "selector": ".s02-agent-heading", "bySec": 13 },
+    { "kind": "appearsBy", "selector": ".s03-answer-heading", "bySec": 21.4 },
+    { "kind": "appearsBy", "selector": ".s04-cta", "bySec": 31 }
+  ]
+}

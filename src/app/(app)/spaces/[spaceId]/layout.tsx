@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/lib/db";
-import { SpaceSidebar } from "@/components/space/space-sidebar";
+import { SpaceShell } from "@/components/space/space-shell";
 import { notFound } from "next/navigation";
 
 export default async function SpaceLayout({
@@ -27,24 +27,30 @@ export default async function SpaceLayout({
     .from(schema.pages)
     .where(eq(schema.pages.spaceId, spaceId));
 
-  pages.sort((a: { sortOrder: number; title: string }, b: { sortOrder: number; title: string }) => a.sortOrder - b.sortOrder || a.title.localeCompare(b.title));
+  pages.sort(
+    (
+      a: { sortOrder: number; title: string },
+      b: { sortOrder: number; title: string }
+    ) => a.sortOrder - b.sortOrder || a.title.localeCompare(b.title)
+  );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--paper)]">
-      <SpaceSidebar
-        space={{
-          id: space.id,
-          name: space.name,
-          icon: space.icon,
-          description: space.description,
-        }}
-        pages={pages.map((p: { id: string; title: string; icon: string | null }) => ({
+    <SpaceShell
+      space={{
+        id: space.id,
+        name: space.name,
+        icon: space.icon,
+        description: space.description,
+      }}
+      pages={pages.map(
+        (p: { id: string; title: string; icon: string | null }) => ({
           id: p.id,
           title: p.title,
           icon: p.icon,
-        }))}
-      />
-      <main className="min-w-0 flex-1 overflow-hidden">{children}</main>
-    </div>
+        })
+      )}
+    >
+      {children}
+    </SpaceShell>
   );
 }

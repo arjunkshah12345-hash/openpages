@@ -1,0 +1,6 @@
+OpenPages — open-source OpenAI Pages / ChatGPT Space
+Your workspace for humans and agents
+Spaces · Pages · Agents · MCP
+Workspace → Retrieval → SuperCompress → Model
+74.7% fewer tokens · same evidence
+Start a Space · github.com/arjunkshah12345-hash/openpages
