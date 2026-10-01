@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href="https://openpages-iota.vercel.app"><strong>Live demo</strong></a> ·
+  <a href="https://openpages-app.vercel.app"><strong>Live demo</strong></a> ·
   <a href="https://github.com/arjunkshah12345-hash/openpages">GitHub</a> ·
   <a href="https://www.supercompress.dev">SuperCompress</a>
 </p>
